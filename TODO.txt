@@ -1,0 +1,10 @@
+====================
+This is a task
++ This is a task that is taken -- Andrew
+++ This is a task that is complete
+====================
+
+Client Background - specify the Client's definition of security
+Use Cases - post-condition should include alt flows
+Acronyms - Always expand in first use
+DFD - add a description for each DFD
