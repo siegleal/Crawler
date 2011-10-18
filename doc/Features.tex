@@ -1,16 +1,26 @@
 \section{Features}
 
+\subsection{Selected Attributes}
+\begin{description}
+	\item[Priority]{Importance of a feature to the functionality of the overall product.  This is rated on a scale of Useful (nice to have), Important (needed for full functionality), and Critical (needed for basic functionality).}
+	\item[Risk]{How likely it is that a feature will experience delays or undesired outcomes. Rated on a scale from low to high.}
+	\item[Effort]{The relative time required to implement a given feature.  This is rated on a scale from low to high.}
+	\item[Research]{Relative amount of research required to implement a given feature. Some features may be highly technical.}
+	\item[Version]{The approximated release version which will contain the feature.}
+	\item[Reason]{The need the feature is fufilling.}
+\end{description}
+
 \newcommand{\lw}{Low}
 \newcommand{\md}{Medium}
 \newcommand{\hh}{High}
-
+\subsection{Feature Table}
 \begin{tabularx}{\textwidth}{|X|c|c|c|c|c|X|}
 	\hline
 	\bf Feature &\bf Priority &\bf Risk &\bf Effort &\bf Research &\bf Version &\bf Reason \\ \hline
 	Parse / analyze HTML header information & Critical & \lw & \md & \md &  & Source of basic webpage and server data. \\ \hline
 	Examine server file tree & Critical & \md & \lw & \lw & & Potentially sensitive information may be hosted publicly. \\ \hline
 	Save crawl results to database & Critical & \md & \hh & \lw & & Results must be saved for report generation and statistics tracking. \\ \hline
-	Report crawl to Alan & Critical & \hh & \md & \md & & Results must be distributed to Alan so that he may report customized results to the user. \\ \hline
+	Report crawl results & Critical & \hh & \md & \md & & Results must be distributed to Alan so that he may report customized results to the user. \\ \hline
 	Parse and analyze Javascript files & Critical & \lw & \hh & Very High & & Javascript files are indicative of production framework. \\ \hline
 	Parse / analyze HTML form information & Important & \lw & \hh & \hh &  & Forms may indicate which frameworks generated them. \\ \hline
 	Examine site security certificates & Important & \md & \lw & \md & & Check for expired certificates. \\ \hline
