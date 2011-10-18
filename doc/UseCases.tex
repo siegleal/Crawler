@@ -1,35 +1,34 @@
 \section{Use Cases}
 \newcommand{\myspace}{\vspace{1cm}}
-
-\subsection{Retrieve/examine file tree}
-\begin{description}
-\item[Actors]Database, website
-\item[Description]The most basic function of the crawler is to retrieve the available files. The crawler will scan the hosted files and report what is found.
-\item[Preconditions] \hfill
-\begin{enumerate}
-    \item The web domain is known to the crawler.
-\end{enumerate}
-
-
-\item[Main flow] \hfill
-\begin{enumerate}
-    \item The system connects to web server specified by the user. [Alt. flow: Connection could not established]
-    \item The system gets a listing of files available.
-    \item The system retrieves files for further scanning.   
-    \item The system adds the list of files to database to reporting.
-\end{enumerate}
-
-\item[Alt. flow: Connection could not be established] \hfill
-\begin{enumerate}
-    \item The system reports error received, store error in database (could be relevant for security testing.)
-\end{enumerate}
-\item[Postconditions] \hfill
-\begin{enumerate}
-    \item All of the files publicly available are known to the crawler.
-    \item All files have been retrieved and their locations known.
-\end{enumerate}
-\end{description}
-\myspace
+%\subsection{Retrieve/examine file tree}
+%\begin{description}
+%\item[Actors]Database, website
+%\item[Description]The most basic function of the crawler is to retrieve the available files. The crawler will scan the hosted files and report what is found.
+%\item[Preconditions] \hfill
+%\begin{enumerate}
+%    \item The web domain is known to the crawler.
+%\end{enumerate}
+%
+%
+%\item[Main flow] \hfill
+%\begin{enumerate}
+%    \item The system connects to web server specified by the user. [Alt. flow: Connection could not established]
+%    \item The system gets a listing of files available.
+%    \item The system retrieves files for further scanning.   
+%    \item The system adds the list of files to database to reporting.
+%\end{enumerate}
+%
+%\item[Alt. flow: Connection could not be established] \hfill
+%\begin{enumerate}
+%    \item The system reports error received, store error in database (could be relevant for security testing.)
+%\end{enumerate}
+%\item[Postconditions] \hfill
+%\begin{enumerate}
+%    \item All of the files publicly available are known to the crawler.
+%    \item All files have been retrieved and their locations known.
+%\end{enumerate}
+%\end{description}
+%\myspace
 
 \subsection{Initiate web crawl}
 \begin{description}
@@ -120,44 +119,44 @@
 \end{enumerate}
 \end{description}
 \myspace
-\subsection{Generic HTML data is parsed}
-\begin{description}
-\item[Actors] Crawler
-\item[Description] After completing a crawl of the website, the crawler analyzes all HTML documents present for vulnerabilities in the HTML headers and forms.
-\item[Pre-conditions] \hfill
-\begin{enumerate}
-    \item Crawler has received intact HTML document.
-\end{enumerate}
-
-
-\item[Main Flow] \hfill
-\begin{enumerate}
-	\item Crawler receives HTML document from HTTP GET request.
-    \item Crawler analyzes headers for possible vulnerabilities. [Alt. flow A: Headers are bot-malicious]
-    \item Crawler analyzes forms for possible vulnerabilities. [Alt. flow B: No forms are present]
-    \item Crawler searches for and saves Search Engine Optimization information.
-    \item Crawler sends results to database for storage and formatting.
-    \item HTML data is sent to individual analysis modules for further analysis.
-    \item Form and vulnerability data is sent to automated email generation.
-\end{enumerate}
-
-\item[Alt. flow A: Headers are bot-malicious] \hfill
-\begin{enumerate}
-    \item Crawler skips to form analysis.
-\end{enumerate}
-
-\item[Alt. flow B: No forms are present] \hfill
-\begin{enumerate}
-    \item Crawler skips form analysis.
-\end{enumerate}
-
-
-\item[Post-conditions] \hfill
-\begin{enumerate}
-    \item Crawler returns any vulnerabilities present to database, or an appropriate error condition for alternate flows.  Crawler gives any SEO data to the database.
-\end{enumerate}
-\end{description}
-\myspace
+%\subsection{Generic HTML data is parsed}
+%\begin{description}
+%\item[Actors] Crawler
+%\item[Description] After completing a crawl of the website, the crawler analyzes all HTML documents present for vulnerabilities in the HTML headers and forms.
+%\item[Pre-conditions] \hfill
+%\begin{enumerate}
+%    \item Crawler has received intact HTML document.
+%\end{enumerate}
+%
+%
+%\item[Main Flow] \hfill
+%\begin{enumerate}
+%	\item Crawler receives HTML document from HTTP GET request.
+%    \item Crawler analyzes headers for possible vulnerabilities. [Alt. flow A: Headers are bot-malicious]
+%    \item Crawler analyzes forms for possible vulnerabilities. [Alt. flow B: No forms are present]
+%    \item Crawler searches for and saves Search Engine Optimization information.
+%    \item Crawler sends results to database for storage and formatting.
+%    \item HTML data is sent to individual analysis modules for further analysis.
+%    \item Form and vulnerability data is sent to automated email generation.
+%\end{enumerate}
+%
+%\item[Alt. flow A: Headers are bot-malicious] \hfill
+%\begin{enumerate}
+%    \item Crawler skips to form analysis.
+%\end{enumerate}
+%
+%\item[Alt. flow B: No forms are present] \hfill
+%\begin{enumerate}
+%    \item Crawler skips form analysis.
+%\end{enumerate}
+%
+%
+%\item[Post-conditions] \hfill
+%\begin{enumerate}
+%    \item Crawler returns any vulnerabilities present to database, or an appropriate error condition for alternate flows.  Crawler gives any SEO data to the database.
+%\end{enumerate}
+%\end{description}
+%\myspace
 \subsection{Report Results}
 \begin{description}
 \item[Actors] User, customer
@@ -197,72 +196,72 @@
 \end{enumerate}
 \end{description}
 \myspace
-\subsection{Examine Certificates} 
-\begin{description}
-\item[Actors] Website
-\item[Description] The system will look at any certificates of any web page it comes across. If it is outdated or invalid, it will generate a warning with the information the system found about the certificate.
-\item[Pre-conditions] \hfill
-\begin{enumerate}
-    \item The system has a list of files it has found in the website.
-    \item The website is valid.
-\end{enumerate}
-
-
-\item[Main Flow] \hfill.
-\begin{enumerate}
-    \item The system checks for a certificate for every file.
-    \item If the certificate for a file is outdated or invalid, the system will make a note of that and store that in a list.
-\end{enumerate}
-
-\item[Post-conditions] \hfill
-\begin{enumerate}
-    \item The system will make a list of all outdated and invalid certificates.
-\end{enumerate}
-\end{description}
-\myspace
-\subsection{Analyze and parse Javascript files}
-\begin{description}
-\item[Actors] Web Server, crawler, database
-\item[Description]The crawler will parse the Javascript files (if applicable) stored on the website and record useful information in the database.
-\item[Pre-conditions] \hfill
-\begin{enumerate}
-    \item Every canonical URL and all pages in the file tree have been pulled off of the website.
-\end{enumerate}
-
-\item[Main Flow] \hfill
-\begin{enumerate}
-    \item The tool analyzes all Javascript files and records any recognized libraries being used to the database.
-    \item The tool looks at inline script in all pages and records any recognized autogenerated functions or naming conventions to the database. It infers more detailed version information from script elements given certain Javascript files if possible.
-    \item The tool executes any static, stored POST/GET requests and adds any returned pages to the file tree. It logs any recognized patterns in the returned objects as well.
-\end{enumerate}
-
-
-\item[Post-conditions] \hfill
-\begin{enumerate}
-    \item The tool recursively analyzes any pages it retrieved from stored POST/GET requests.
-\end{enumerate}
-\end{description}
-\myspace
-\subsection{Show statistics on websites}
-\begin{description}
-\item[Actors] User, Database
-\item[Description] The crawler will be able to analyze different statistics about the websites it has crawled such as security flaw trends and typical problematic software present on websites.
-\item[Pre-conditions] \hfill
-\begin{enumerate}
-    \item At least one crawl has completed.
-\end{enumerate}
-
-\item[Main Flow] \hfill
-\begin{enumerate}
-    \item User requests statistics from the crawler.
-    \item Crawler compiles specified statistics from crawl data about a specific site or multiple sites.
-    \item Crawler outputs a report to the user.
-\end{enumerate}
-
-
-\item[Post-conditions] \hfill
-\begin{enumerate}
-    \item A report is available to the user.
-\end{enumerate}
-\end{description}
-\myspace
+%\subsection{Examine Certificates} 
+%\begin{description}
+%\item[Actors] Website
+%\item[Description] The system will look at any certificates of any web page it comes across. If it is outdated or invalid, it will generate a warning with the information the system found about the certificate.
+%\item[Pre-conditions] \hfill
+%\begin{enumerate}
+%    \item The system has a list of files it has found in the website.
+%    \item The website is valid.
+%\end{enumerate}
+%
+%
+%\item[Main Flow] \hfill.
+%\begin{enumerate}
+%    \item The system checks for a certificate for every file.
+%    \item If the certificate for a file is outdated or invalid, the system will make a note of that and store that in a list.
+%\end{enumerate}
+%
+%\item[Post-conditions] \hfill
+%\begin{enumerate}
+%    \item The system will make a list of all outdated and invalid certificates.
+%\end{enumerate}
+%\end{description}
+%\myspace
+%\subsection{Analyze and parse Javascript files}
+%\begin{description}
+%\item[Actors] Web Server, crawler, database
+%\item[Description]The crawler will parse the Javascript files (if applicable) stored on the website and record useful information in the database.
+%\item[Pre-conditions] \hfill
+%\begin{enumerate}
+%    \item Every canonical URL and all pages in the file tree have been pulled off of the website.
+%\end{enumerate}
+%
+%\item[Main Flow] \hfill
+%\begin{enumerate}
+%    \item The tool analyzes all Javascript files and records any recognized libraries being used to the database.
+%    \item The tool looks at inline script in all pages and records any recognized autogenerated functions or naming conventions to the database. It infers more detailed version information from script elements given certain Javascript files if possible.
+%    \item The tool executes any static, stored POST/GET requests and adds any returned pages to the file tree. It logs any recognized patterns in the returned objects as well.
+%\end{enumerate}
+%
+%
+%\item[Post-conditions] \hfill
+%\begin{enumerate}
+%    \item The tool recursively analyzes any pages it retrieved from stored POST/GET requests.
+%\end{enumerate}
+%\end{description}
+%\myspace
+%\subsection{Show statistics on websites}
+%\begin{description}
+%\item[Actors] User, Database
+%\item[Description] The crawler will be able to analyze different statistics about the websites it has crawled such as security flaw trends and typical problematic software present on websites.
+%\item[Pre-conditions] \hfill
+%\begin{enumerate}
+%    \item At least one crawl has completed.
+%\end{enumerate}
+%
+%\item[Main Flow] \hfill
+%\begin{enumerate}
+%    \item User requests statistics from the crawler.
+%    \item Crawler compiles specified statistics from crawl data about a specific site or multiple sites.
+%    \item Crawler outputs a report to the user.
+%\end{enumerate}
+%
+%
+%\item[Post-conditions] \hfill
+%\begin{enumerate}
+%    \item A report is available to the user.
+%\end{enumerate}
+%\end{description}
+%\myspace
