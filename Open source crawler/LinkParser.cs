@@ -125,6 +125,14 @@ namespace CSharpCrawler
             {
                 return false;
             }
+            else if (url.Equals("/"))
+            {
+                return true;
+            }
+            else if (url.Length < 7 && url.Substring(0, 3) != "www")
+            {
+                return true;
+            }
             else if (url.Substring(0, 7) == "http://" || url.Substring(0, 3) == "www" || url.Substring(0, 7) == "https://")
             {
                 return true;

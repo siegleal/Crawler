@@ -117,11 +117,12 @@ namespace CSharpCrawler
             {
                 formattedLink = ResolveRelativePaths(link, originatingUrl);
             }
-            else if (originatingUrl.IndexOf(ConfigurationManager.AppSettings["url"].ToString()) > -1
+           /* else if (originatingUrl.IndexOf(ConfigurationManager.AppSettings["url"].ToString()) > -1
                 && link.IndexOf(ConfigurationManager.AppSettings["url"].ToString()) == -1)
             {
                 formattedLink = originatingUrl.Substring(0, originatingUrl.LastIndexOf("/") + 1) + link;
             }
+            * */
             else if (link.IndexOf(ConfigurationManager.AppSettings["url"].ToString()) == -1)
             {
                 formattedLink = ConfigurationManager.AppSettings["url"].ToString() + link;
