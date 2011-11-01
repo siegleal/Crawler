@@ -20,6 +20,8 @@ namespace CSharpCrawler
         private static List<string> _exceptions = new List<string>();
         private static List<string> _classes = new List<string>();
         private static StringBuilder _logBuffer = new StringBuilder();
+        private static int depth = 0;
+        private static int maxDepth = 10;
 
         #endregion
 
@@ -53,6 +55,10 @@ namespace CSharpCrawler
         /// <param name="url">The url to crawl.</param>
         private static void CrawlPage(string url)
         {
+            if (depth == maxDepth)
+            {
+                return;
+            }
             if (!PageHasBeenCrawled(url))
             {
                 string htmlText = GetWebText(url);
@@ -92,7 +98,9 @@ namespace CSharpCrawler
 
                         if (formattedLink != String.Empty)
                         {
+                            depth++;
                             CrawlPage(formattedLink);
+                            depth--;
                         }
                     }
                     catch (Exception exc)
