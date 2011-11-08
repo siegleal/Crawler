@@ -1,0 +1,25 @@
+\subsection{Display Trace Log}
+\textbf{Test Details}
+In order to test logging functions of the crawler, the logging module will be fed mocked inputs from successful processes and unsuccessful processes.\\\\
+\textbf{Scenario Matrix}\\\\
+\begin{tabular}{|c|c c|}
+	\hline
+	Scenario ID & Originating Flow & Alternate Flow  \\ \hline \hline
+	S0 & Main &  \\ \hline
+	S1 & Main & Alt. \\ \hline
+\end{tabular}\\\\\\\\
+\textbf{Test Matrix}\\\\
+\begin{tabularx}{\textwidth}{|c c X|}
+	\hline
+	\textbf{Test Case ID} & \bf{Successful Process} & \textbf{Expected Result}  \\ \hline
+	T0 & Yes & System intakes all necessary logging data from mocked processes and logs it.  There is no failure flag. \\ \hline
+	T1 & No & System intakes all necessary logging data from mocked processes and logs it.  There is a failure flag present \\ \hline
+\end{tabularx}\\\\\\\\
+\textbf{Test Case to Scenario Table}\\\\
+\begin{tabular}{|r||c|c|}
+	\hline
+	& S0 & S1 \\ \hline \hline
+	T0 & X & \\ \hline
+	T1 & & X \\ \hline
+\end{tabular}
+
