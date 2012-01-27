@@ -5,16 +5,25 @@ using System.Text;
 using System.Collections;
 using System.IO;
 //Nothing too sophisicated yet. This class will retrun the frequency of the given strings in another given string or text or a file.
-namespace Project1
+namespace Crawler
 {
-    class ParsingModule
+    class ParsingModule: crawlerPlugin
     {
-        private ArrayList<String> searchStringList;
-        public ParsingModule(ArrayList<String> stringList)
+        private List<String> searchStringList;
+
+
+        public void passInStrings(List<String> stringList)
         {
             searchStringList = stringList;
         }
 
+        public List<String> analyseSite()
+        {
+            /* TODO:  This.  Needs a list of vulnerabilities to hunt for, then should pass its
+             * stuff into */
+            return new List<String>();
+        }
+        
         public ArrayList getFrequencyFromString(string text)
         {
             int n = searchStringList.Count;
