@@ -16,8 +16,8 @@ BEGIN
 	RAISERROR('Request Email cannot be null when creatinga  new crawl', 14, 2);
 	RETURN
 END
-SET @newID = dbo.getLargestCrawl() + 1;
 DECLARE @webID int;
 SET @webID = (SELECT ID FROM Website WHERE URL = @url);
-INSERT INTO Crawl(CrawlID, CrawlTimestamp, SiteID, RequestEmail)
-VALUES(@newID, DEFAULT, @webID, @reqEmail)
+INSERT INTO Crawl(Timestamp, SiteID, RequestEmail)
+VALUES(DEFAULT, @webID, @reqEmail);
+SET @newID = (SELECT MAX(CrawlID) FROM Crawl WHERE SiteID = @webID);
