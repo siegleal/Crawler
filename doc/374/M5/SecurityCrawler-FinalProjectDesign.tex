@@ -2,6 +2,7 @@
 \usepackage[paperheight=11in,paperwidth=8.5in,margin=1in]{geometry}
 \usepackage{fancyhdr}
 \usepackage{mdwlist}
+\usepackage{graphicx}
 \setlength{\headheight}{15.2pt}
 \pagestyle{fancy}
 
@@ -31,7 +32,6 @@ Steve CHENOWETH
 \end{titlepage}
 \tableofcontents
 \newpage
-
 \section{Introduction}
 403 Security is a web security firm based out of Indianapolis that is looking to increase its client base by way of a free, automated security scan that a potential client can request by way of a web service.  This service will save 403 employees valuable time and generate a sizeable number of clients for 403.
 To this end, the Security Crawler system has been designed.  Because it is an automated service that anyone can access, it is restricted to analysis of page source, and cannot perform in-depth penetration scans.  However, a sizeable number of security vulnerabilites can be deduced from this data, such as out-of-date software and bad permissions in the html file tree.
@@ -39,8 +39,10 @@ This document contains updated designs and architectural models for the security
 
 \newpage
 \section{Analysis Models}
+\includegraphics[width=\textwidth]{SeqDia}
 \newpage
 \section{Logical Architecture}
+\includegraphics{LogArch}
 \newpage
 \section{Design with discussion}
 \newpage
@@ -55,32 +57,30 @@ Alex Audretsch &
 \begin{minipage}{.4\textwidth}
 \vspace{11pt}
 \begin{itemize}
-	\item sample
-	\item sample 2
+	\item Updated DCD
 \end{itemize} 
 \end{minipage} \\ \hline
 Michael Eaton & 
 \begin{minipage}{.4\textwidth}
 \vspace{11pt}
 \begin{itemize}
-	\item sample
-	\item sample 2
+	\item Introduction
+	\item Logical Architecture
 \end{itemize} 
 \end{minipage} \\ \hline
 Trevor Krenz & 
 \begin{minipage}{.4\textwidth}
 \vspace{11pt}
 \begin{itemize}
-	\item sample
-	\item sample 2
+	\item Design with explanation (GRASP and GoF Principles)
 \end{itemize} 
 \end{minipage} \\ \hline
 Andrew Siegle & 
 \begin{minipage}{.4\textwidth}
 \vspace{11pt}
 \begin{itemize}
-	\item sample
-	\item sample 2
+	\item Document Design
+	\item Sequence Diagrams
 \end{itemize} 
 \end{minipage} \\ \hline
 \end{tabular}
