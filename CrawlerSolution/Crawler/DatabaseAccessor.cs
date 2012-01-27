@@ -17,9 +17,9 @@ namespace Crawler
             "server=whale.cs.rose-hulman.edu;" +
             "connection timeout=30;";
         static SqlConnection con = new SqlConnection(connectionDetails);
-        static Logger.Log databaseLogger;
+        static Log databaseLogger;
 
-        public DatabaseAccessor(Logger.Log logger)
+        public DatabaseAccessor(Log logger)
         {
             databaseLogger = logger;
         }
