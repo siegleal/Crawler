@@ -44,10 +44,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crawler.cs" />
+    <Compile Include="CrawlerPlugin.cs" />
+    <Compile Include="DatabaseAccessor.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="ParsingModule.cs" />
+    <Compile Include="PluginInterface.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Website.cs" />
+    <Compile Include="WebsiteParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

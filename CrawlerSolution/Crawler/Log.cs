@@ -7,12 +7,12 @@ namespace Crawler
 {
     public class Log
     {
-        System.IO.StreamWriter file;
+        private System.IO.StreamWriter file;
         string format;
 
         public Log(string filePath)
         {
-            System.IO.StreamWriter file = new System.IO.StreamWriter(filePath);
+            this.file = File.CreateText(filePath);// = new System.IO.StreamWriter(filePath);
         }
 
         public void writeWarning(string text)
@@ -43,6 +43,11 @@ namespace Crawler
         public void writeUser(string text, string type)
         {
             file.WriteLine(DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss") + "   "+type+": " + text);
+        }
+
+        public void destroy()
+        {
+            file.Close();
         }
     }
 }

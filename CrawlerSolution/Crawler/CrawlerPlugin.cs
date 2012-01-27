@@ -10,16 +10,18 @@ namespace Crawler
         private DatabaseAccessor db;
         private Website website;
         private int crawlID;
+        private Log log;
 
         /* Class methods */
-        public crawlerPlugin(Website website, DatabaseAccessor db, int crawlID)
+        /*public abstract crawlerPlugin(Website website, DatabaseAccessor db, int crawlID, Log l)
         {
             this.db = db;
             this.website = website;
             this.crawlID = crawlID;
+            this.log = l;
         }
 
-        public void addToDatabase(List<String> results)
+        protected void addToDatabase(List<String> results)
         {
             foreach(String result in results)
             {
@@ -29,9 +31,9 @@ namespace Crawler
 
         /* Abstract methods
          * TODO:  Add MustOverride*/
-        public List<String> analyseSite();
+        //public abstract List<String> analyseSite();
 
-
+        
 
         
 

@@ -14,7 +14,7 @@ using System.IO;
             Console.Write("Enter the crawl level>>");
             String level = Console.ReadLine();
 
-            CrawlingEngine.Crawler crawler = new CrawlingEngine.Crawler(path, Int32.Parse(level));
+            Crawler.Crawler crawler = new Crawler.Crawler(path, Int32.Parse(level));
 
             Console.WriteLine("Complete. Press any key to continue...");
             Console.Read();
