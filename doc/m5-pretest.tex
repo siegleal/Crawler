@@ -1,10 +1,12 @@
 \documentclass{article}
 \usepackage{setspace, fancyhdr}
 \usepackage[margin=1in, paperheight=11in,paperwidth=8.5in]{geometry}
+\usepackage{tabularx}
 \pagestyle{fancy}
 
 \setlength{\headheight}{15.2pt}
 \setlength{\headsep}{12pt}
+
 
 
 \begin{document}
@@ -19,7 +21,17 @@
         \setlength{\itemsep}{2cm}
     \item Do you own an iOS device and if so how long have you been using any iOS software?
     \item Rate your iOS experience -  1 (minimal experience) - 5 (extensive user).
+
+        \begin{tabularx}{\textwidth}{X X X X X}
+            Little or no experience & & & & Extensive user \\
+            1&2&3&4&5 \\
+        \end{tabularx}
     \item Rate your technological expertise  - 1 (1 or 2 casual applications) - 5 (people come to you for technical help with everything)
+
+        \begin{tabularx}{\textwidth}{X X X X X}
+            Understands very little & & & & Expert \\
+            1&2&3&4&5 \\
+        \end{tabularx}
     \item Do you own a smart phone or tablet? If so what software does it run (Android, Blackberry, iOS\ldots etc)
     \item What kind of productiviy (calendars or reminders) software do you use ``N/A'' if not applicable?
     
