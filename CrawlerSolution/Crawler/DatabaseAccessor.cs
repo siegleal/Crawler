@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace Crawler
 {
-    class DatabaseAccessor
+    public class DatabaseAccessor
     {
         /* Hey guys, please don't abuse my whale login ID while I get sriram to make us
          * an ID we can use >.> */

@@ -12,7 +12,7 @@ namespace Crawler
 
         public Log(string filePath)
         {
-            this.file = File.CreateText(filePath);// = new System.IO.StreamWriter(filePath);
+                this.file = File.CreateText(filePath);// = new System.IO.StreamWriter(filePath);
         }
 
         public void writeWarning(string text)

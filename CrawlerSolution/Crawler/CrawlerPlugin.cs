@@ -5,15 +5,15 @@ using System.Text;
 
 namespace Crawler
 {
-    public abstract class crawlerPlugin
+    public abstract class CrawlerPlugin
     {
-        private DatabaseAccessor db;
-        private Website website;
-        private int crawlID;
-        private Log log;
+        protected DatabaseAccessor db;
+        protected Website website;
+        protected int crawlID;
+        protected Log log;
 
         /* Class methods */
-        /*public abstract crawlerPlugin(Website website, DatabaseAccessor db, int crawlID, Log l)
+        public CrawlerPlugin(Website website, DatabaseAccessor db, int crawlID, Log l)
         {
             this.db = db;
             this.website = website;

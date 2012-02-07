@@ -7,8 +7,14 @@ using System.IO;
 //Nothing too sophisicated yet. This class will retrun the frequency of the given strings in another given string or text or a file.
 namespace Crawler
 {
-    class ParsingModule: crawlerPlugin
+    class ParsingModule: CrawlerPlugin
     {
+        public ParsingModule(Website w, DatabaseAccessor db, int id, Log log)
+            : base(w, db, id, log)
+        {
+
+        }
+
         private List<String> searchStringList;
 
 

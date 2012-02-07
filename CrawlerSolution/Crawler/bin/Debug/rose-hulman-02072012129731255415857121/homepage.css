@@ -1,0 +1,523 @@
+#page-container {
+  width: 986px;
+  margin: 0 auto;
+}
+
+#homepage-container {
+  width: 100%;
+  border: 0;
+  margin: 0;
+  border-collapse: collapse;
+}
+
+#homepage-container td {
+  padding: 0;
+  vertical-align: top;
+  overflow: visible;
+}
+
+input[type="button"] {
+  color: white;
+  background-color: #a1022d;
+  font-size: 10px;
+  border: none;
+  height: 18px;
+}
+
+/* General
+--------------------------------------------- */
+.clear {
+  clear: both;
+}
+
+.relative {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.right {
+  text-align: right;
+}
+
+/* Header content
+--------------------------------------------- */
+#header {
+  height: 81px;
+  background-color: #fff8ed;
+}
+
+#header .logo {
+  margin: 20px 0px 0px 18px;
+}
+
+#header .links {
+  float: right;
+  font-size: 10px;
+  padding: 5px 10px;
+  margin-top: -1px;
+}
+
+#header .links a {
+  text-decoration: none;
+  color: black;
+  margin: 0px 5px;
+}
+
+#homepage-container #search {
+  width: 248px;
+  background-color: #b8c5d3;
+  padding: 4px 20px;
+  font-size: 10px;
+}
+
+#homepage-container #search .default-text {
+  width: 160px;
+  padding: 2px;
+
+  margin: 0;
+}
+
+#homepage-container #search img {
+  vertical-align: top;
+  padding-top: 2px;
+  cursor: pointer;
+}
+
+/* Navigation column
+--------------------------------------------- */
+#homepage-container #navigation {
+  padding-top: 16px;
+  width: 212px;
+  overflow: visible;
+  max-width: 212px;
+  position: relative;
+  background: #b8c5d3 url(http://www.rose-hulman.edu/media/38/footcornerleft_transblue.png) bottom left no-repeat;
+}
+
+#nav-links,
+#profile-links {
+  width: 207px;
+  font-weight: bold;
+  font-size: 11px;
+  padding: 10px 0px;
+  line-height: 20px;
+  /*right: 15px;*/
+  margin-left: -15px;
+  position: relative;
+}
+
+#nav-links {
+  background-color: #a1022d;
+  padding-left: 20px;
+}
+
+#nav-links ul,
+#profile-links ul {
+  margin: 0;
+  padding: 0;
+}
+
+#nav-links li,
+#profile-links li {
+  list-style-type: none;
+}
+
+#nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+#profile-links {
+  background-color: #dcd1cc;
+  margin-top: 15px;
+  padding-right: 20px;
+  text-align: right;
+  color: #000000;
+}
+
+#profile-links a {
+  color: #000000;
+  text-decoration: none;
+  text-transform: lowercase;
+}
+#nav-links a:hover,
+#profile-links a:hover {
+  text-decoration: underline;
+}
+
+#address {
+  font-size: 10px;
+  padding-left: 15px;
+  padding-top: 80px;
+
+  /*
+  padding-bottom: 27px;
+  position: absolute;
+  bottom: 0px;*/
+}
+
+#homepage-container #navigation .giving {
+  text-align: center;
+  margin: 40px 0 0 0;
+}
+
+img.giving {
+  border: none;
+}
+
+#social {
+  padding: 20px 0px 0px 15px;
+}
+
+#social img {
+  border: none;
+}
+
+/* Upper content area
+--------------------------------------------- */
+#content-upper {
+  width: 526px;
+  max-width: 526px;
+  background-color: white;
+  height: 373px;
+  position: relative;
+}
+
+#content-upper img.carousel-focus {
+  margin-right: -248px;
+  display: block;
+  border:0;
+}
+
+#carousel-focus-title {
+  font-weight: bold;
+  color: white;
+  font-size: 34px;
+  position: absolute;
+  top: 25px;
+  left: 15px;
+}
+a[href] #carousel-focus-title {
+  cursor:pointer;
+}
+#carousel-focus-title a {
+  color:#fff;
+}
+
+#carousel {
+  background-color: black;
+  height: 44px;
+  width: 287px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
+
+#carousel td.button {
+  width: 16px;
+}
+
+#carousel .previous,
+#carousel .next {
+  margin: 13px 0;
+  display: none;
+}
+
+#carousel .previous {
+  /*float: left;*/
+  padding-left: 3px;
+}
+
+#carousel .next {
+  /*float: right;*/
+}
+
+.jcarousel {
+  width: 260px;
+}
+
+.jcarousel li {
+  margin: 0;
+  padding: 0;
+}
+
+.jcarousel img {
+  margin: 4px 3px;
+  border: 1px solid black;
+  width: 58px;
+  height: 34px;
+}
+
+.jcarousel img:hover {
+  border: 1px solid #a1022d;
+}
+
+.jcarousel img.active {
+  border: 1px solid white;
+}
+
+/* Right column
+--------------------------------------------- */
+#news-column {
+  width: 248px;
+  max-width: 248px;
+  background-color: black;
+}
+
+#news-container {
+/*
+  background-color: black;
+  filter:alpha(opacity=60);
+  opacity:0.6;*/
+  color: white;
+  height: 363px;
+  padding: 5px 15px;
+  font-size: 11px;
+  position: relative;
+  width: 218px;
+}
+
+#news-contents {
+  background-color:transparent;
+  height: 100%;
+  position: relative;
+  width: 100%;
+  z-index: 101;
+}
+
+#news-background {
+  background-color: black;
+  height: 100%;
+  filter:alpha(opacity=75); /* IE's opacity*/
+  left: 0px;
+  opacity: 0.75;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  z-index: 99;
+}
+
+#news-container h1 {
+  padding-top: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0px;
+  margin-bottom: 27px;
+}
+
+#news-container hr {
+  padding: 10px 0;
+  border: none;
+  border-bottom: dotted 1px #333333;
+}
+
+#news-container h2 {
+  font-size: 11px;
+  color: #aebcc7;
+  padding-top: 10px;
+  margin: 0px;
+  margin-top: 27px;
+  margin-bottom: 10px;
+  border-top: 1px dotted #333333;
+}
+
+#news-container input[type="button"] {
+  position: absolute;
+  right: 15px;
+  bottom: 30px;
+  border: 1px solid black;
+}
+
+#news-container input[type="button"]:hover {
+  border: 1px solid white;
+}
+
+#news-archive-button {
+  display: block;
+  float: right;
+  padding: 3px 6px;
+  color: white;
+  background-color: #a1022d;
+  font-size: 10px; 
+  font-weight:bold;
+  border: none;
+  margin-top: 20px;
+}
+
+#news-container p {
+  margin: 0px;
+  padding: 0px;
+}
+
+#news-container a {
+  color:#fff;
+  text-decoration:underline;
+}
+#news-container a:hover {
+  text-decoration:none;
+}
+
+/* Lower content area
+--------------------------------------------- */
+#homepage-container #content-lower {
+  background-color: white;
+  padding: 16px 20px 14px;
+}
+
+#carousel-focus-text {
+  font-size: 13px;
+  color: #666666;
+  line-height: 20px;
+  min-height: 100px;
+}
+
+#carousel-focus-text p {
+  margin: 0;
+}
+
+#carousel-focus-text a {
+  text-decoration: none;
+  color: #b41e39;
+}
+
+#sem {
+  margin-top: 46px;
+  font-size: 10.5px;
+  color: #666666;
+  padding: 9px;
+  background-color: #fff8ed;
+  border: 1px solid #dddddd;
+  line-height: 17px;
+}
+
+/* Subnews area
+--------------------------------------------- */
+#homepage-container #subnews {
+  background: #b8c5d3 url(http://www.rose-hulman.edu/media/43/footcornerright_transblue.png) bottom right no-repeat;
+  padding: 9px 10px 0px 10px;
+}
+
+#subnews h1.event {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  margin: 0;
+  padding: 3px 5px;
+}
+
+#subnews p.event {
+  padding: 9px;
+  margin: 0;
+  font-weight: bold;
+  font-size: 11px;
+  border: solid 1px #999999;
+  background-color: white;
+  height: 70px;
+  position: relative;
+}
+
+#subnews p.event img.event {
+  float: left;
+  padding: 0px 5px 0px 0px;
+  border: none;
+}
+
+#subnews p.event .link img {
+  border: none;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+}
+
+
+#subnews div.award {
+  padding: 24px 25px;
+}
+
+#subnews div.award h1 {
+  font-weight: bold;
+  font-size: 11px;
+  margin-top: 0;
+}
+
+#subnews div.award h2 {
+  font-weight: bold;
+  font-size: 9px;
+}
+
+#subnews div.award img {   
+display: block;   
+margin-left: auto;   
+margin-right: auto; 
+border: none;
+}
+
+#copyright {
+  font-size: 10px;
+  color: #666666;
+  padding-top: 41px;
+}
+
+/* Footer
+--------------------------------------------- */
+#homepage-container #footer td {
+  padding: 5px 15px;
+  color: white;
+  font-size: 10px;
+}
+
+#homepage-container #footer a img {
+  border: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* EDITOR PROPERTIES - PLEASE DON'T DELETE THIS LINE TO AVOID DUPLICATE PROPERTIES */

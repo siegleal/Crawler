@@ -1,0 +1,38 @@
+body {
+  background-color: #231f20;
+  background-image: url('http://www.rose-hulman.edu/media/33/background_complete.jpg');
+  background-repeat: no-repeat;
+  background-position: top center;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+a {
+  color: #a1022d;
+  text-decoration: none; 	
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td {
+  padding: 0;
+  vertical-align: top;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* EDITOR PROPERTIES - PLEASE DON'T DELETE THIS LINE TO AVOID DUPLICATE PROPERTIES */

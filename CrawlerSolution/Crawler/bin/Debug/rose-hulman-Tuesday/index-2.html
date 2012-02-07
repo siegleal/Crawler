@@ -1,0 +1,369 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" >
+  
+<!-- Mirrored from www.rose-hulman.edu/ by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 07 Feb 2012 21:54:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="title" content="Rose-Hulman Institute of Technology" />
+<meta name="description" content="Rose-Hulman is a leader in engineering, science and mathematics education offering bachelor's and master's degrees. Just under 2,000 students take rigorous courses in Chemistry, Computer Science, Humanities &amp; Social Sciences, Math or Physics as well as these engineering disciplines: Biomedical, Chemical, Civil, Electrical &amp; Computer, Software, Mechanical and Optical. With our hands-on approach to learning and almost 100% placement rate, our students are graduated as problem solvers ready for a wide variety of careers." />
+<meta name="keywords" content="premiere, engineering, CERN, Supercollider, faster-than-light, undergraduate, college, institute, university, top, leading, school, biomedical, chemical, civil, electrical, computer, software, mechanical, optical, mathematics, university, bachelor, master, degree, physics, education, &quot;number one&quot;, technical, innovation, &quot;U.S News and World&quot;, rankings, &quot;top 100,&quot; &quot;engineering school&quot;, &quot;engineering degree&quot;." /><title>
+	Rose-Hulman Institute of Technology
+</title><link rel="stylesheet" href="global.css" type="text/css" /><link rel="stylesheet" href="editor.css" type="text/css" /><link rel="shortcut icon" href="favicon.ico" type="image/x-icon" /><link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+    <script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="global.js"></script>
+
+    
+  <link rel="stylesheet" href="homepage.css" type="text/css" />
+  <script type="text/javascript" src="jquery.defaulttext.js"></script>
+  <script type="text/javascript" src="jcarousellite-1.3.js"></script>
+
+  <script type="text/javascript">
+    var stopCarousel = false;
+    
+    $(document).ready(function(){
+      setMouseover("img.giving", "giving_over.jpg", "giving.jpg");
+      setMouseover("#carousel .previous", "carousel_arrowlefton.png", "carousel_arrowleftoff.png");
+      setMouseover("#carousel .next", "carousel_arrowrighton.png", "carousel_arrowrightoff.png");
+
+      //If there are enough elements in the carousel, show the Next arrow
+      if($(".jcarousel li").size() > 4)
+        $(".next").show();
+      
+      $("#carousel .jcarousel").jCarouselLite({
+        btnNext: "#carousel .next",
+        btnPrev: "#carousel .previous",
+        speed: 800,
+        circular: false,
+        visible: 4,
+        afterEnd: function(visibleItems) {
+          if(visibleItems && visibleItems.length > 0) {
+
+            //Show or hide the Previous arrow, depending on where the user is in the carousel
+            if(visibleItems.get(0) == $(".jcarousel li").get(0))
+              $(".previous").hide();
+            else
+              $(".previous").show();
+            
+            //Show or hide the Next arrow, depending on where the user is in the carousel
+            if(visibleItems.last().get(0) == $(".jcarousel li").last().get(0))
+              $(".next").hide();
+            else
+              $(".next").show();
+          }
+        }
+      });
+      
+      //Respond to clicks on the carousel images
+      $("#carousel .jcarousel img").click(function() {
+        stopCarousel = true;
+        displayCarouselItem($(this));
+      });
+      
+      //Set up the auto-rotation for the carousel
+      var numCarouselImages = $("#carousel .jcarousel img").length;
+      var currentImageIndex = 0;
+      var intervalId = setInterval(function() {
+        if(stopCarousel) {
+          clearInterval(intervalId);
+          return;
+        }
+        
+        currentImageIndex = (currentImageIndex + 1) % numCarouselImages;
+        var item = $("#carousel .jcarousel img").eq(currentImageIndex);
+        displayCarouselItem(item);
+      }, 10000);
+      
+      $(".default-text").addDefaultText();
+      
+      function performSearch(context) {
+        var inputWithDefaultText = $('.default-text', context);
+        if (inputWithDefaultText.length > 0 && inputWithDefaultText.val() === inputWithDefaultText.attr('rel'))
+          return;
+       
+        var searchVal = encodeURIComponent($('input[type=text]', context).val());
+      
+        var url = "/search.aspx?q=" + searchVal;
+        window.location = url;
+      }
+      
+      //Search controls
+      $(".search-box img").click(function() {
+        performSearch($(this).parent());
+      });
+      
+      $('.search-box input[type=text]').keypress(function (event) {
+        if(event.keyCode == 13){
+          performSearch($(this).parent());
+          return false;
+        }
+      
+        return true;
+      });
+
+    });
+    
+    function displayCarouselItem(item) {
+      var nodeId = item.attr("nodeid");
+        
+      var html = $("#slide" + nodeId).html();
+      $("#carousel-focus-text").html(html);
+      
+      var index = $("#carousel .jcarousel img").index(item);
+      var data = slideData[index];
+      $("img.carousel-focus").attr("src", data[0]);
+      $("#carousel-focus-title").html(data[1]);
+      
+      if (data[2]) {
+        $("#carousel-link").attr('href', data[2]);
+      } else {
+        $("#carousel-link").removeAttr('href'); // effectively disable the link
+      }
+      
+      $("#carousel .jcarousel img").removeClass("active");
+      item.addClass("active");
+    }
+    
+    
+var slideData = [["/media/430539/train bridge carouselwstrpe.jpg","Advancing Transportation","http://www.rose-hulman.edu/news/academics/rose-hulman-helps-for-advancing-railroad-technologies.aspx"]
+,["/media/439963/phil in japan2 carousel).jpg","Cultural Learning","http://www.rose-hulman.edu/news/on-campus/global-educational-initiatives.aspx"]
+,["/media/428002/mlk awardcarouselwstrp.jpg","Inspiring Respect","http://www.rose-hulman.edu/news/on-campus/mlk-student-leadership-awards-acknowledging-respect,-caring-appreciation.aspx"]
+,["/media/413636/goldsmith carousel stp.jpg","Top Leadership Thinkers","https://edit-www.rose-hulman.edu/news/alumni/goldsmith-great-thinkers-award.aspx"]
+];
+  
+
+  </script>
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-38834066-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </head>
+  <body>
+    <form method="post" action="http://www.rose-hulman.edu/" id="ctl01">
+<div class="aspNetHidden">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUENTM4MWRkvIljVDAiORsI9R+EPYuVRWKULJj5VGRGhGJSAOcRKZ4=" />
+</div>
+
+
+<script type="text/javascript">
+//<![CDATA[
+var UC_ITEM_INFO_SERVICE = "/umbraco/uComponents/Items";var UC_IMAGE_SERVICE = "/umbraco/controls/Images/ImageViewerUpdater.asmx/UpdateImage";//]]>
+</script>
+
+      <div id="page-container">
+        
+  <table id="homepage-container">
+    <tr id="header">
+      <td colspan="2">
+        
+        <div class="links">
+          <a href="intranet.html">INTRANET</a> |
+          <a href="contact.html">CONTACT</a>
+        </div>
+
+        <img class="logo" src="logo_rhit.png" alt="Rose-Hulman Logo"/>
+      </td>
+      <td id="search" class="search-box">
+        SEARCH<br />
+        <input type="text" class="default-text" rel='(e.g., "Alumni Association")' /> <img class="go" src="seachgoimage.gif"/>
+      </td>
+    </tr>
+    <tr>
+      <td id="navigation" rowspan="2">
+        <div class="relative">
+          <div id="nav-links">
+            <ul><li><a href="index-2.html">Home</a></li><li><a href="admissions-financial-aid.html">Admissions &amp; Financial Aid</a></li><li><a href="academics.html">Academics</a></li><li><a href="offices-services.html">Offices &amp; Services</a></li><li><a href="student-life.html">Student Life</a></li><li><a href="news.html">Rose-Hulman News</a></li><li><a href="contact.html">Contact</a></li><li><a href="calendars.html">Calendars</a></li><li><a href="athletics.html">Athletics</a></li><li><a href="about.html">About Rose-Hulman</a></li></ul>
+          </div>
+
+          <div id="profile-links">
+            <ul><li><a href="prospective-students.html">Prospective Students</a></li><li><a href="current-students.html">Current Students</a></li><li><a href="incoming-freshmen.html">Incoming Freshmen</a></li><li><a href="faculty-staff.html">Faculty / Staff</a></li><li><a href="alumni.html">Alumni</a></li><li><a href="community.html">Community</a></li><li><a href="business-industry-partners.html">Business / Industry Partners</a></li><li><a href="board-of-trustees.html">Trustees</a></li><li><a href="parents.html">Parents</a></li></ul>
+          </div>
+
+          <center><a href="https://alumni.rose-hulman.edu/donations/donate.asp?id=2221"><img class="giving" src="giving.jpg" alt="Giving to Rose-Hulman"/></a></center>
+
+          
+        </div>
+
+        <div id="address">
+          Rose-Hulman Institute of Technology<br />
+          5500 Wabash Avenue<br />
+          Terre Haute, IN 47803<br />
+          812-877-1511
+        </div>
+        
+        <div id="social">
+          <a href="http://www.facebook.com/pages/Terre-Haute-IN/Rose-Hulman-Institute-of-Technology/10046401301?ref=ts"><img src="socialmedia_facebook.png" alt="Facebook"/></a>
+          <a href="http://www.youtube.com/rosehulmanbest"><img src="socialmedia_youtube.png" alt="YouTube"/></a>
+          <a href="http://www.flickr.com/search/?q=rose-hulman"><img src="socialmedia_flickr.png" alt="Flickr"/></a>
+   <a href="http://www.twitter.com/RoseHulman"><img src="http://twitter-badges.s3.amazonaws.com/t_small-c.png" alt="Follow RoseHulman on Twitter"/></a>
+        </div>
+      </td>
+      <td id="content-upper">
+        <div class="relative">
+          
+          <a id="carousel-link" href="rose-hulman-helps-for-advancing-railroad-technologies.html"><img src="train%20bridge%20carouselwstrpe.jpg" alt="Advancing Transportation" class="carousel-focus" /><div id="carousel-focus-title">Advancing Transportation</div></a>
+          
+          <div id="carousel">
+            <table>
+              <tr>
+                <td class="button"><img src="carousel_arrowleftoff.png" class="previous"/></td>
+                <td>
+                  <div class="jcarousel">
+                    <ul><li><img src="trainthumb.jpg" nodeid="7030" class="active" /></li><li><img src="japan%20thumb.jpg" nodeid="7031" /></li><li><img src="mlkaward%20thumb.jpg" nodeid="7028" /></li><li><img src="goldsmith%20thumb.jpg" nodeid="7029" /></li></ul>
+                  </div>
+                </td>
+                <td class="button"><img src="carousel_arrowrightoff.png" class="next"/></td>
+              </tr>
+            </table>
+
+          </div>
+        </div>
+      </td>
+      <td id="news-column">
+        <div id="news-container">
+          <div id="news-background"></div>
+          <div id="news-contents">
+            <h1>ROSE-HULMAN NEWS</h1>
+
+            <h2><span>WHO DESIGNS YOUR COINS?</span></h2>
+
+<p>A Rose-Hulman alum is part of U.S. Mint advisory committee. <a
+href="jansen-federal-coin-committee-alumni-feature.html">
+Read more</a>.</p>
+
+<h2>NATIONAL RECOGNITION: WOMEN IN AEROSPACE&nbsp;</h2>
+
+<p>Rose-Hulman alumna earns recognition for aerospace achievement.
+<a
+href="aerospace-special-achievement-award.html">
+More here.</a></p>
+
+<h2><span>A JEWEL AMONG SCHOOLS</span></h2>
+
+<p>Acclaimed Physicist deems Rose-Hulman a jewel of innovation. <a
+href="science%2c-the-engine-of-prosperity.html">More.</a></p>
+
+            <a id="news-archive-button" href="news.html">MORE CAMPUS NEWS</a>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td id="content-lower">
+        <div id="carousel-focus-text">
+          
+<p>Rose-Hulman joins select schools, including MIT, in the National
+University Rail Center project. Funded through a $3.5 million grant
+from the U.S. Department of Transportation, the project will give
+Rose-Hulman students invaluable engineering experience within a
+growth industry, addressing the needs of the future. <a
+href="rose-hulman-helps-for-advancing-railroad-technologies.html">
+More about the project.</a>&nbsp;(Photo: David Honan, Civil,
+'05)</p>
+
+        </div>
+  
+        <div id="sem">
+          <p>&nbsp;<a href="index-6.html"><img src="environmental%20btn1.jpg" width="150" height="137" alt="Environmental btn1"/></a><a href="http://www.rhventures.org/"
+target="_blank"><img src="venturesbutton.jpg" width="150" height="137" alt="Venturesbuttonniko"/></a><a
+href="http://www.askrose.org/home.php"><img src="homewrk%20hotline%20grlwdiag150.jpg" width="150" height="137" alt="homework hotline grlwdgr150"/></a></p>
+
+<p><span>Rose-Hulman leads the nation&nbsp;in undergraduate
+engineering, science and math education.&nbsp;We
+offer&nbsp;bachelor's and master's degrees, with nearly 100%
+placement.</span></p>
+        </div>
+      </td>
+      <td id="subnews">
+        <h1 class="event">
+          JOIN THE CONVERSATION
+        </h1>
+        <p class="event">
+          <a href="the-great-debate.html">
+            <img src="thegreatdebate-hombanner.jpg" class="event" />
+          </a>
+          
+          <a href="the-great-debate.html" class="link"><img src="promolinkarrow.png" alt="Event link" /></a>
+        </p>
+        
+        <div> 
+<div class="award">
+          <a href="http://colleges.usnews.rankingsandreviews.com/best-colleges/rose-hulman-institute-of-technology-1830">
+            <img src="usnewslogo2012%20(2).jpg" alt="USNews" title="USNews" width="123" height="118" rel="123,118" /> 
+          </a>
+<a href="rose-hulman-1.html">
+          <h1>#1 THIRTEEN YEARS IN A ROW!</h1></a> 
+                 </div>
+              </div>
+        <div id="copyright">
+          &copy; 2012 Rose-Hulman Institute of Technology
+        </div>
+      </td>
+    </tr>
+  </table>
+          
+  <div style="display: none" id="slide7030">
+<p>Rose-Hulman joins select schools, including MIT, in the National
+University Rail Center project. Funded through a $3.5 million grant
+from the U.S. Department of Transportation, the project will give
+Rose-Hulman students invaluable engineering experience within a
+growth industry, addressing the needs of the future. <a
+href="rose-hulman-helps-for-advancing-railroad-technologies.html">
+More about the project.</a>&nbsp;(Photo: David Honan, Civil,
+'05)</p>
+</div><div style="display: none" id="slide7031">
+<p>According to Rose-Hulman Global Programs director Luchen Li,
+"cultural IQ" may be&nbsp;as sought after in the job market as
+engineering acumen -- and Rose-Hulman strives to enhance&nbsp;the
+"cultural IQ" of its graduates.&nbsp;On a recent tour of Japan,
+Vice President of Academic Affairs Phil Cornwell (above) and
+President Matt Branam visited educational labs, absorbing Japanese
+culture as they gathered ideas&nbsp;for innovative teaching and
+cross-cultural partnership. <a
+href="global-educational-initiatives.html">
+More on our Global Programs</a>.&nbsp;</p>
+</div><div style="display: none" id="slide7028">
+<p>Rose-Hulman's student engineers inspire through leadership and
+initiative as they reach out to a world in need. As part of a
+month-long celebration of Martin Luther King and his inspirational
+ideas, Rose-Hulman honors engaged students who exemplify respect
+for the dignity of all. Meet this year's <strong><a
+href="mlk-student-leadership-awards-acknowledging-respect%2c-caring-appreciation.html"
+title="MLK Student Leadership Awards: Acknowledging Respect, Caring &amp; Appreciation">
+MLK Award recipients</a></strong>.(<em>Angelica Patino,
+above.</em>) Also, read how <strong><a
+href="the-dream-begins-with-you.html">Rose-Hulman
+Professors celebrate</a></strong> the personal inspiration of Dr.
+King.</p>
+</div><div style="display: none" id="slide7029">
+<p>Surveys of today's employers&nbsp;show that&nbsp;leadership is
+high on their list of qualities in demand, and Rose-Hulman
+has&nbsp;a tradition of&nbsp;shaping students with strong
+leadership skills. In keeping with that tradition, this
+year's&nbsp;prestigious Thinkers50 Leadership Award, sponsored by
+the Harvard Business Review,&nbsp;went to Rose-Hulman alumnus
+Marshall Goldsmith&nbsp;as the&nbsp;world's most influential
+leadership thinker. <a href="goldsmith-great-thinkers-award.html"
+title="Goldsmith Great Thinkers Award">Read more</a>.</p>
+
+<p>&nbsp;</p>
+</div>
+
+      </div>
+      
+         </form>
+  </body>
+
+<!-- Mirrored from www.rose-hulman.edu/ by HTTrack Website Copier/3.x [XR&CO'2010], Tue, 07 Feb 2012 21:54:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+</html>

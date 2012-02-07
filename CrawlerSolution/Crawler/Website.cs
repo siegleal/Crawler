@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Crawler
 {
-    class Website
+    public class Website
     {
         public string url;
         public string dirpath;
