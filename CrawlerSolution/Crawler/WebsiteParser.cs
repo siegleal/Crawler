@@ -7,7 +7,7 @@ using System.IO;
 namespace Crawler
 {
     //This class parses all of the files found and logs all of them
-    class WebsiteParser : CrawlerPlugin, PluginInterface
+    class WebsiteParser : CrawlerPlugin
     {
         public WebsiteParser(Website website, DatabaseAccessor db, int crawlID, Log l)
             : base(website, db, crawlID, l)
