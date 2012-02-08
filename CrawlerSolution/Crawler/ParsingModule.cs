@@ -22,7 +22,7 @@ namespace Crawler
             searchStringList = stringList;
         }
 
-        public List<String> analyzeSite()
+        public override List<String> analyzeSite()
         {
             /* TODO:  This.  Needs a list of vulnerabilities to hunt for, then should pass its
              * stuff into */

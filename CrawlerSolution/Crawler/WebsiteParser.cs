@@ -15,7 +15,7 @@ namespace Crawler
             
         }
 
-        public List<String> analyzeSite()
+       public override List<String> analyzeSite()
         {
             log.writeInfo("Beginning website directory parsing");
             var files = from file in Directory.EnumerateFiles(website.dirpath) select file;
