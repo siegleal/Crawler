@@ -16,23 +16,53 @@ namespace Crawler
         }
 
         private List<String> searchStringList;
+        private List<String> descriptionList;
 
         public void passInStrings(List<String> stringList)
         {
             searchStringList = stringList;
         }
 
+        public void loadDefinitionsFromFile()
+        {
+            //Load from Vuln.txt
+            System.IO.StreamReader file = new System.IO.StreamReader("Vuln.txt");
+            String line;
+            int i = 0;
+            while ((line = file.ReadLine()) != null)
+            {
+                int s = line.IndexOf("\t");
+                searchStringList[i] = line.Substring(0, s - 1);
+                descriptionList[i] = line.Substring(s + 1, line.Length);
+                i++;
+            }
+        }
+
         public override List<String> analyzeSite()
         {
-            /* TODO:  This.  Needs a list of vulnerabilities to hunt for, then should pass its
-             * stuff into */
+            List<String> files = website.getFilesFound();
+            foreach (String file in files)
+            {
+                List<int> histogram = getFrequencyFromFile(file);
+                int j = 0;
+                foreach (int n in histogram)
+                {
+                    if (n > 0)
+                    {
+                        //We've found something.
+                        log.writeDebug("Vulnerability '" + descriptionList[j] + "' found in file " + file + ". Frequency: " + n);
+                    }
+                    j++;
+                }
+            }
+            //Not sure what exactly to return yet.
             return new List<String>();
         }
         
-        public ArrayList getFrequencyFromString(string text)
+        public List<int> getFrequencyFromString(string text)
         {
             int n = searchStringList.Count;
-            ArrayList rList = new ArrayList(); //I can't make an array list have a certain type of elements, I will look into this
+            List<int> rList = new List<int>(); //I can't make an array list have a certain type of elements, I will look into this
             for (int i = 0; i < n; i++)
             {
                 rList[i] = 0;
@@ -46,12 +76,12 @@ namespace Crawler
             return rList;
         }
 
-        public ArrayList getFrequencyFromFile(string file)
+        public List<int> getFrequencyFromFile(string file)
         {
             StreamReader fileStream = new StreamReader(file);
             //Simply turn the file into a string
             string text = fileStream.ReadToEnd();
-            ArrayList r = getFrequencyFromString(text);
+            List<int> r = getFrequencyFromString(text);
             fileStream.Close();
             return r;
         }
