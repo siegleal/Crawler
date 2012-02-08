@@ -17,13 +17,12 @@ namespace Crawler
 
         private List<String> searchStringList;
 
-
         public void passInStrings(List<String> stringList)
         {
             searchStringList = stringList;
         }
 
-        public List<String> analyseSite()
+        public override List<String> analyzeSite()
         {
             /* TODO:  This.  Needs a list of vulnerabilities to hunt for, then should pass its
              * stuff into */

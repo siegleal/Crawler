@@ -31,7 +31,7 @@ namespace Crawler
 
         /* Abstract methods
          * TODO:  Add MustOverride*/
-        //public abstract List<String> analyseSite();
+        public abstract List<String> analyzeSite();
 
         
 
