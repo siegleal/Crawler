@@ -24,8 +24,12 @@ namespace Crawler
             Website site = new Website(path,outputPath);
             Log log = new Log(outputPath + "\\log.txt");
 
+            List<String> vulnerabilities = new List<String>();
 
             WebsiteParser siteparser = new WebsiteParser(site, null, 0, log);
+            CrawlerPlugin ssl = new SSLConfirmationPlugin(site, null, 0, log);
+            vulnerabilities.Add(ssl.analyseSite());
+            
             siteparser.analyzeSite(site, null, 0, log);
 
             log.destroy();
