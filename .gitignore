@@ -1,0 +1,7 @@
+#compiled stuff
+*.pdb
+*.exe
+
+*/bin/*
+
+*.suo
