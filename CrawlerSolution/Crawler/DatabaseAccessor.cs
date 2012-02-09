@@ -120,23 +120,39 @@ namespace Crawler
         /* Add a website.  Return its database ID.
          * Returns -1 if the command failed */
         /* Apparently insertNewWebsite doesn't exist if I add the params on the end of the commandString,
-         * but it's missing params if I don't add them...
-         *                                  (╯°□°）╯︵ ┻━┻                        */
+         * but it's missing params if I don't add them, and just typing in the query gives missing @language.
+         *              
+         *                                  (╯°□°）╯︵ ┻━┻                        
+         *              
+         * Can someone who is not me (Mikey) look at this? */
         public int addWebsite(string url, string software, string language, string version)
         {
             int websiteID = -1;
-
-            string commandString = "dbo.insertNewWebsite";
             
+
+            //string commandString = "dbo.insertNewWebsite '" + url + "', '" + software + "', '" + language + "', '" + version + "', @output";
+            string commandString = "insertNewWebsite";
+            /*
+            string commandString = "IF ((SELECT URL FROM Website WHERE URL = @url) IS NULL) " +
+            "BEGIN " +
+            "INSERT INTO Website(URL, Language, ServerSoftware, Version) " +
+            "VALUES(@url, @language, @serverSoftware, @version); " +
+            "SET @output = (SELECT MAX(ID) FROM Website WHERE url = @url);" +
+            "END " +
+            "ELSE " +
+            "SET @output = (SELECT ID FROM Website WHERE URL = @url);";
+            */
+
             SqlCommand command = new SqlCommand(commandString, con);
             command.CommandType = CommandType.StoredProcedure;
+            
             /* Define Parameters */
             SqlParameter outputParam = new SqlParameter();
             outputParam.ParameterName = "@output";
             outputParam.SqlDbType = SqlDbType.Int;
             outputParam.Size = 4;
-            outputParam.Direction = ParameterDirection.Output;
-
+            outputParam.Direction = ParameterDirection.InputOutput;
+            
             SqlParameter urlParam = new SqlParameter();
             urlParam.ParameterName = "@url";
             urlParam.SqlDbType = SqlDbType.VarChar;
@@ -144,23 +160,23 @@ namespace Crawler
             urlParam.Value = url;
             urlParam.Direction = ParameterDirection.Input;
             command.Parameters.Add( urlParam );
-
-
+            
+            
             SqlParameter languageParam = new SqlParameter();
-            languageParam.ParameterName = "@language";
+            languageParam.ParameterName = "@lang";
             languageParam.SqlDbType = SqlDbType.Char;
-            languageParam.Size = 15;
+            languageParam.Size = 25;
             languageParam.Value = language;
             languageParam.Direction = ParameterDirection.Input;
-            command.Parameters.Add(languageParam);
-
+            command.Parameters.Add( languageParam );
+            
             SqlParameter softwareParam = new SqlParameter();
             softwareParam.ParameterName = "@serverSoftware";
             softwareParam.SqlDbType = SqlDbType.Char;
             softwareParam.Size = 25;
             softwareParam.Value = software;
             softwareParam.Direction = ParameterDirection.Input;
-            command.Parameters.Add(softwareParam);
+            command.Parameters.Add( softwareParam );
 
             SqlParameter versionParam = new SqlParameter();
             versionParam.ParameterName = "@version";
@@ -169,8 +185,9 @@ namespace Crawler
             versionParam.Value = version;
             versionParam.Direction = ParameterDirection.Input;
             command.Parameters.Add( versionParam );
+            
             command.Parameters.Add( outputParam );
-
+            
             try
             {
                 con.Open();
