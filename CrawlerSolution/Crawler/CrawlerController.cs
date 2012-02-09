@@ -38,6 +38,10 @@ namespace Crawler
             //Try to analyse an SSL certificate, if there is one
             CrawlerPlugin ssl = new SSLConfirmationPlugin(site, dbAccess, crawlID, log);
             ssl.analyzeSite();
+            
+            //HTML Parser
+            ParsingModule HTMLParser = new ParsingModule(site, dbAccess, crawlID, log);
+            HTMLParser.analyzeSite();
 
             log.destroy();
         }
