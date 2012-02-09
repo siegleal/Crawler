@@ -15,11 +15,16 @@ namespace Crawler
         {
             this.url = url;
             this.dirpath = dirpath;
+            this.filesFound = new List<String>();
         }
 
         public void addFile(String s)
         {
-            filesFound.Add(s);
+            try
+            {
+                filesFound.Add(s);
+            }
+            finally { }
         }
 
         public List<String> getFilesFound()
