@@ -9,11 +9,10 @@ namespace Crawler
 {
     public class DatabaseAccessor
     {
-        /* Hey guys, please don't abuse my whale login ID while I get sriram to make us
-         * an ID we can use >.> */
+        /* And we have a default user!  WOO! */
         static string connectionDetails = "Database=SecurityCrawlerDatabase;" +
-            "user id=eatonmi;" +
-            "password=WoWLog#1;" +
+            "user id=SecurityCrawlerUser;" +
+            "password=lwqem3r3;" +
             "server=whale.cs.rose-hulman.edu;" +
             "connection timeout=30;";
         static SqlConnection con = new SqlConnection(connectionDetails);
@@ -65,18 +64,27 @@ namespace Crawler
         public int newCrawl(string url, string email)
         {
             int crawlID = -1;
-            string commandString = "dbo.createNewCrawl";
+            string commandString = "dbo.createNewCrawl @url, @reqEmail, @newID";
 
             SqlCommand command = new SqlCommand(commandString, con);
 
-            SqlParameter outputParameter = new SqlParameter("@newID", SqlDbType.Int, 4);
+            SqlParameter outputParameter = new SqlParameter();
+            outputParameter.ParameterName = "@newID";
+            outputParameter.SqlDbType = SqlDbType.Int;
+            outputParameter.Size = 4;
             outputParameter.Direction = ParameterDirection.Output;
 
-            SqlParameter urlParam = new SqlParameter("@url", SqlDbType.VarChar, 500);
+            SqlParameter urlParam = new SqlParameter();
             urlParam.Value = url;
+            urlParam.ParameterName = "@url";
+            urlParam.SqlDbType = SqlDbType.VarChar;
+            urlParam.Size = 500;
             command.Parameters.Add(urlParam);
 
-            SqlParameter emailParam = new SqlParameter("@reqEmail", SqlDbType.VarChar, 60);
+            SqlParameter emailParam = new SqlParameter();
+            emailParam.ParameterName = "@reqEmail";
+            emailParam.SqlDbType = SqlDbType.VarChar;
+            emailParam.Size = 60;
             emailParam.Value = email;
             command.Parameters.Add(emailParam);
 
@@ -104,37 +112,62 @@ namespace Crawler
                     con.Close();
                 }
             }
+
+            databaseLogger.writeInfo("New Crawl ID is " + String.Format("{0:####}", crawlID));
             return crawlID;
         }
 
-        /* Add a website.  Return its database ID
+        /* Add a website.  Return its database ID.
          * Returns -1 if the command failed */
+        /* Apparently insertNewWebsite doesn't exist if I add the params on the end of the commandString,
+         * but it's missing params if I don't add them...
+         *                                  (╯°□°）╯︵ ┻━┻                        */
         public int addWebsite(string url, string software, string language, string version)
         {
             int websiteID = -1;
-            /* TODO:  Write the command */
-            string commandString = "dbo.InsertNewWebsite";
+
+            string commandString = "dbo.insertNewWebsite";
             
             SqlCommand command = new SqlCommand(commandString, con);
             command.CommandType = CommandType.StoredProcedure;
             /* Define Parameters */
-            SqlParameter outputParam = new SqlParameter("@output", SqlDbType.Int, 4);
+            SqlParameter outputParam = new SqlParameter();
+            outputParam.ParameterName = "@output";
+            outputParam.SqlDbType = SqlDbType.Int;
+            outputParam.Size = 4;
             outputParam.Direction = ParameterDirection.Output;
 
-            SqlParameter urlParam = new SqlParameter("@url", SqlDbType.VarChar, 500);
+            SqlParameter urlParam = new SqlParameter();
+            urlParam.ParameterName = "@url";
+            urlParam.SqlDbType = SqlDbType.VarChar;
+            urlParam.Size = 500;
             urlParam.Value = url;
+            urlParam.Direction = ParameterDirection.Input;
             command.Parameters.Add( urlParam );
 
-            SqlParameter languageParam = new SqlParameter("@language", SqlDbType.Char, 15);
+
+            SqlParameter languageParam = new SqlParameter();
+            languageParam.ParameterName = "@language";
+            languageParam.SqlDbType = SqlDbType.Char;
+            languageParam.Size = 15;
             languageParam.Value = language;
+            languageParam.Direction = ParameterDirection.Input;
             command.Parameters.Add(languageParam);
 
-            SqlParameter softwareParam = new SqlParameter("@serverSoftware", SqlDbType.Char, 25);
+            SqlParameter softwareParam = new SqlParameter();
+            softwareParam.ParameterName = "@serverSoftware";
+            softwareParam.SqlDbType = SqlDbType.Char;
+            softwareParam.Size = 25;
             softwareParam.Value = software;
+            softwareParam.Direction = ParameterDirection.Input;
             command.Parameters.Add(softwareParam);
 
-            SqlParameter versionParam = new SqlParameter("@version", SqlDbType.Char, 15);
+            SqlParameter versionParam = new SqlParameter();
+            versionParam.ParameterName = "@version";
+            versionParam.SqlDbType = SqlDbType.Char;
+            versionParam.Size = 15;
             versionParam.Value = version;
+            versionParam.Direction = ParameterDirection.Input;
             command.Parameters.Add( versionParam );
             command.Parameters.Add( outputParam );
 
@@ -163,8 +196,9 @@ namespace Crawler
             return websiteID;
         }
 
-        /* DO NOT USE THIS YET:  It's far from complete, mostly because I don't yet know
-         * how to handle tables as output from a stored procedure */
+        /* Don't use this yet:  Apparently output from a database comes as... Datarows?  Which
+         * are just... generic, uncastable objects...?
+                                     ┻━┻ ︵ヽ(`Д´)ﾉ︵﻿ ┻━┻                  */
         public List<String> getWebsiteVulnerabilites(string url)
         {
             List<String> result = new List<String>();
