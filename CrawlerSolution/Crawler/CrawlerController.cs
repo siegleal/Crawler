@@ -35,6 +35,10 @@ namespace Crawler
             WebsiteParser siteparser = new WebsiteParser(site, dbAccess, crawlID, log);
             siteparser.analyzeSite();
 
+            //HTML Parser
+            ParsingModule HTMLParser = new ParsingModule(site, dbAccess, crawlID, log);
+            HTMLParser.analyzeSite();
+
             log.destroy();
         }
     }
