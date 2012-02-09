@@ -2,6 +2,6 @@
 *.pdb
 *.exe
 
-*/bin/*
+bin
 
 *.suo
