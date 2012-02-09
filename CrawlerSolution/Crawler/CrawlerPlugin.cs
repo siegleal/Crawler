@@ -33,9 +33,7 @@ namespace Crawler
          * TODO:  Add MustOverride*/
         public abstract List<String> analyzeSite();
 
-        
-
-        
+              
 
     }
 }
