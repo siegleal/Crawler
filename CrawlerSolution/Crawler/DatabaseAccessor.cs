@@ -64,15 +64,17 @@ namespace Crawler
         public int newCrawl(string url, string email)
         {
             int crawlID = -1;
-            string commandString = "dbo.createNewCrawl @url, @reqEmail, @newID";
+            string commandString = "createNewCrawl";
 
             SqlCommand command = new SqlCommand(commandString, con);
+            command.CommandType = CommandType.StoredProcedure;
 
             SqlParameter outputParameter = new SqlParameter();
             outputParameter.ParameterName = "@newID";
             outputParameter.SqlDbType = SqlDbType.Int;
             outputParameter.Size = 4;
-            outputParameter.Direction = ParameterDirection.Output;
+            outputParameter.Value = DBNull.Value;
+            outputParameter.Direction = ParameterDirection.InputOutput;
 
             SqlParameter urlParam = new SqlParameter();
             urlParam.Value = url;
@@ -119,6 +121,7 @@ namespace Crawler
 
         /* Add a website.  Return its database ID.
          * Returns -1 if the command failed */
+        /* Works now.  Solution was using DBNull.Value rather than null (wat?).  Saving the comment below for posterity */
         /* Apparently insertNewWebsite doesn't exist if I add the params on the end of the commandString,
          * but it's missing params if I don't add them, and just typing in the query gives missing @language.
          *              
@@ -130,27 +133,18 @@ namespace Crawler
             int websiteID = -1;
             
 
-            //string commandString = "dbo.insertNewWebsite '" + url + "', '" + software + "', '" + language + "', '" + version + "', @output";
+
             string commandString = "insertNewWebsite";
-            /*
-            string commandString = "IF ((SELECT URL FROM Website WHERE URL = @url) IS NULL) " +
-            "BEGIN " +
-            "INSERT INTO Website(URL, Language, ServerSoftware, Version) " +
-            "VALUES(@url, @language, @serverSoftware, @version); " +
-            "SET @output = (SELECT MAX(ID) FROM Website WHERE url = @url);" +
-            "END " +
-            "ELSE " +
-            "SET @output = (SELECT ID FROM Website WHERE URL = @url);";
-            */
 
             SqlCommand command = new SqlCommand(commandString, con);
             command.CommandType = CommandType.StoredProcedure;
             
             /* Define Parameters */
             SqlParameter outputParam = new SqlParameter();
-            outputParam.ParameterName = "@output";
+            outputParam.ParameterName = "@ret";
             outputParam.SqlDbType = SqlDbType.Int;
             outputParam.Size = 4;
+            outputParam.Value = DBNull.Value;
             outputParam.Direction = ParameterDirection.InputOutput;
             
             SqlParameter urlParam = new SqlParameter();
@@ -166,7 +160,14 @@ namespace Crawler
             languageParam.ParameterName = "@lang";
             languageParam.SqlDbType = SqlDbType.Char;
             languageParam.Size = 25;
-            languageParam.Value = language;
+            if (language == null)
+            {
+                languageParam.Value = DBNull.Value;
+            }
+            else
+            {
+                languageParam.Value = language;
+            }
             languageParam.Direction = ParameterDirection.Input;
             command.Parameters.Add( languageParam );
             
@@ -174,7 +175,14 @@ namespace Crawler
             softwareParam.ParameterName = "@serverSoftware";
             softwareParam.SqlDbType = SqlDbType.Char;
             softwareParam.Size = 25;
-            softwareParam.Value = software;
+            if (software == null)
+            {
+                softwareParam.Value = DBNull.Value;
+            }
+            else
+            {
+                softwareParam.Value = software;
+            }
             softwareParam.Direction = ParameterDirection.Input;
             command.Parameters.Add( softwareParam );
 
@@ -182,7 +190,14 @@ namespace Crawler
             versionParam.ParameterName = "@version";
             versionParam.SqlDbType = SqlDbType.Char;
             versionParam.Size = 15;
-            versionParam.Value = version;
+            if (version == null)
+            {
+                versionParam.Value = DBNull.Value;
+            }
+            else
+            {
+                versionParam.Value = version;
+            }
             versionParam.Direction = ParameterDirection.Input;
             command.Parameters.Add( versionParam );
             
@@ -192,7 +207,7 @@ namespace Crawler
             {
                 con.Open();
                 command.ExecuteNonQuery();
-                websiteID = (int)command.Parameters["@output"].Value;
+                websiteID = (int)command.Parameters["@ret"].Value;
             }
             catch (SqlException e)
             {

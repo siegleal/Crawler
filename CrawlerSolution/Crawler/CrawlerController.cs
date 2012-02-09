@@ -29,20 +29,22 @@ namespace Crawler
 
             //initalize the database accessor class
             DatabaseAccessor dbAccess = new DatabaseAccessor(log);
+            dbAccess.addWebsite(path, null, null, null);
             int crawlID = dbAccess.newCrawl(path,"example@gmail.com");
 
             //Parse website
             WebsiteParser siteparser = new WebsiteParser(site, dbAccess, crawlID, log);
             siteparser.analyzeSite();
-
+            
             //Try to analyse an SSL certificate, if there is one
             CrawlerPlugin ssl = new SSLConfirmationPlugin(site, dbAccess, crawlID, log);
             ssl.analyzeSite();
             
+            /*
             //HTML Parser
             ParsingModule HTMLParser = new ParsingModule(site, dbAccess, crawlID, log);
             HTMLParser.analyzeSite();
-
+            */
             log.destroy();
         }
     }
