@@ -1,5 +1,0 @@
-C:\Users\siegleal\Crawler\CrawlerSolution\WebInterface\bin\WebInterface.dll
-C:\Users\siegleal\Crawler\CrawlerSolution\WebInterface\bin\WebInterface.pdb
-C:\Users\siegleal\Crawler\CrawlerSolution\WebInterface\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\siegleal\Crawler\CrawlerSolution\WebInterface\obj\Debug\WebInterface.dll
-C:\Users\siegleal\Crawler\CrawlerSolution\WebInterface\obj\Debug\WebInterface.pdb
