@@ -35,6 +35,10 @@ namespace Crawler
             WebsiteParser siteparser = new WebsiteParser(site, dbAccess, crawlID, log);
             siteparser.analyzeSite();
 
+            //Try to analyse an SSL certificate, if there is one
+            CrawlerPlugin ssl = new SSLConfirmationPlugin(site, dbAccess, crawlID, log);
+            ssl.analyzeSite();
+
             log.destroy();
         }
     }
