@@ -3,5 +3,6 @@
 *.exe
 
 bin
+obj
 
 *.suo
