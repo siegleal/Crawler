@@ -8,14 +8,14 @@ using System.Net;
 
 namespace Crawler
 {
-    class SSLConfirmationPlugin : CrawlerPlugin , PluginInterface
+    class SSLConfirmationPlugin : CrawlerPlugin
     {
         static List<String> result;
         static private Log logger;
         static private DateTime lastTSLRevision; 
         static private String preNextRevision = "1/8/2011";
         static private String NextRevision = "1/7/2012";
-        static private String[] CertificateAuthorities;
+        static private String[] CertificateAuthorities = { "GoDaddy.com, Inc." };
         private Website web;
         private int crawlID;
 
@@ -28,17 +28,19 @@ namespace Crawler
             this.crawlID = crawlID;
 
             /* Ensure we're not doing the effective date stuff wrong */
-            if (DateTime.Now < DateTime.Parse(NextRevision))
+            if (DateTime.Now.CompareTo(DateTime.Parse(NextRevision)) > 0)
             {
                 lastTSLRevision = DateTime.Parse(preNextRevision);
+                logger.writeDebug("TLS revision set to " + lastTSLRevision.ToShortDateString());
             }
             else
             {
                 lastTSLRevision = DateTime.Parse(NextRevision);
+                logger.writeDebug("TLS revision set to " + lastTSLRevision.ToShortDateString());
             }
         }
 
-        public List<String> analyzeSite()
+        public override List<String> analyzeSite()
         {
             List<String> result = new List<String>();
             
@@ -90,12 +92,13 @@ namespace Crawler
             SslPolicyErrors policyErrors)
         {
             bool retVal = true;
+            X509Certificate2 cert = (X509Certificate2)certificate;
 
             /* Check the effective date to ensure it's after the latest TLS protocol update */
             DateTime effDate = DateTime.Parse(certificate.GetEffectiveDateString());
             logger.writeInfo("Certificate is effective on " + certificate.GetEffectiveDateString());
 
-            if (effDate < lastTSLRevision)
+            if (effDate.CompareTo(lastTSLRevision) < 0)
             {
                 result.Add("Effective Date of SSL Certificate before last TLS revision");
                 logger.writeInfo("Certificate effective before most recent TLS revision");
@@ -104,15 +107,18 @@ namespace Crawler
             /* Check Expiration Date */
             DateTime expDate = DateTime.Parse(certificate.GetExpirationDateString());
 
-            if (expDate < DateTime.Now)
+            if (expDate.CompareTo(DateTime.Now) < 0)
             {
                 result.Add("SSL Certificate Expired");
                 logger.writeInfo("Certificate expired");
             }
-            
-            /* TODO:  Check that the CA is valid */
 
-            logger.writeInfo("Certificate Authority is " + certificate.Issuer);
+            if (!cert.Verify())
+            {
+                result.Add("SSL Certificate fails chain verification");
+                logger.writeInfo("SSL Certificate failed chain verification");
+                retVal = false;
+            }
 
             return retVal;
         }
