@@ -1,3 +1,3 @@
 <script src=”http://lilupophilupop.com/sl.php”></script>	Infected with Lilupophilupop
-Teststring112233	Found the test string
-<img	Found an image (debug)
+@	Possible email
+<script	Script
