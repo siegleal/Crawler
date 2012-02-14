@@ -120,7 +120,7 @@ namespace Crawler
             if (!cert.Verify())
             {
                 result.Add("SSL Certificate fails chain verification");
-                logger.writeInfo("SSL Certificate failed chain verification");
+                logger.writeVuln("SSL Certificate failed chain verification");
                 retVal = false;
             }
 
