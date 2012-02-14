@@ -19,6 +19,7 @@ namespace Crawler
             Process p = Process.Start(Directory.GetCurrentDirectory() + "/httrack/httrack.exe", arguments);
             p.WaitForExit();
 
+            String foldername = outputPath;
             outputPath =  Directory.GetCurrentDirectory() + "\\"  +  outputPath;
             
             //initialize the website
@@ -40,11 +41,11 @@ namespace Crawler
             CrawlerPlugin ssl = new SSLConfirmationPlugin(site, dbAccess, crawlID, log);
             ssl.analyzeSite();
             
-            /*
+            
             //HTML Parser
-            ParsingModule HTMLParser = new ParsingModule(site, dbAccess, crawlID, log);
+            HTMLParsingModule HTMLParser = new HTMLParsingModule(site, dbAccess, crawlID, log);
             HTMLParser.analyzeSite();
-            */
+            
             log.destroy();
         }
     }

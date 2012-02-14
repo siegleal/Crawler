@@ -23,8 +23,10 @@ namespace Crawler
             foreach (var file in files)
             {
                 String filePath = file.ToString().Substring(file.LastIndexOf("\\") + 1);
-                log.writeDebug("Found file " + filePath);
-                website.addFile(filePath);
+                if (!filePath.Equals("log.txt")){
+                    log.writeDebug("Found file " + filePath);
+                    website.addFile(file.ToString());
+                }
             }
             log.writeDebug(files.Count<string>().ToString() + " files found");
             return new List<String>();
