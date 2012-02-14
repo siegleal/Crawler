@@ -69,6 +69,10 @@ namespace Crawler
             {
                 response = (HttpWebResponse)request.GetResponse();
             }
+            catch (Exception e)
+            {
+            
+            }
             finally
             {
                 if (response == null)
@@ -118,6 +122,10 @@ namespace Crawler
                 result.Add("SSL Certificate fails chain verification");
                 logger.writeInfo("SSL Certificate failed chain verification");
                 retVal = false;
+            }
+            else
+            {
+                logger.writeInfo("SSL Certificate passes chain verification");
             }
 
             return retVal;
