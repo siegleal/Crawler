@@ -69,6 +69,10 @@ namespace Crawler
             {
                 response = (HttpWebResponse)request.GetResponse();
             }
+            catch (Exception e)
+            {
+                logger.writeInfo("Failure to connect!  Probably because adding an https:// to the url didn't give a secure connection.");
+            }
             finally
             {
                 if (response == null)
