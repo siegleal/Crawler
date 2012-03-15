@@ -40,6 +40,11 @@ namespace Crawler
             file.WriteLine(DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss") + "   DEBUG: " + text);
         }
 
+        public void writeVuln(string text)
+        {
+            file.WriteLine(DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss") + "   VULN: " + text);
+        }
+
         public void writeUser(string text, string type)
         {
             file.WriteLine(DateTime.Now.ToString("yyyy.MM.dd hh:mm:ss") + "   "+type+": " + text);
