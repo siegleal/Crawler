@@ -23,12 +23,15 @@ namespace Crawler
             outputPath =  Directory.GetCurrentDirectory() + "\\"  +  outputPath;
             
             //initialize the website
+
             Website site = new Website(path,outputPath);
 
             //initialize the log
             Log log = new Log(outputPath + "\\log.txt");
+            log.writeInfo("Log created correctly");
 
             //initalize the database accessor class
+            log.writeDebug("Creating database object");
             DatabaseAccessor dbAccess = new DatabaseAccessor(log);
             dbAccess.addWebsite(path, null, null, null);
             int crawlID = dbAccess.newCrawl(path,"example@gmail.com");
@@ -38,6 +41,7 @@ namespace Crawler
             siteparser.analyzeSite();
             
             //Try to analyse an SSL certificate, if there is one
+            log.writeDebug("Creating SSL object");
             CrawlerPlugin ssl = new SSLConfirmationPlugin(site, dbAccess, crawlID, log);
             ssl.analyzeSite();
 
@@ -47,9 +51,17 @@ namespace Crawler
             
             
             //HTML Parser
+            log.writeDebug("Creating HTML parsing object");
             HTMLParsingModule HTMLParser = new HTMLParsingModule(site, dbAccess, crawlID, log);
             HTMLParser.analyzeSite();
+            log.writeDebug("Done parsing HTML");
+
+            //notify
+            log.writeDebug("Preparing to send message");
+            //NotifyClient.sendMessage();
+            log.writeDebug("Done sending notification");
             
+            log.writeDebug("Destroying log....program exiting");
             log.destroy();
         }
     }
