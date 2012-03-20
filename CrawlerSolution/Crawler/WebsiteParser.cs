@@ -19,16 +19,21 @@ namespace Crawler
         {
             log.writeInfo("Beginning website directory parsing");
             var files = from file in Directory.EnumerateFiles(website.dirpath) select file;
+            log.writeInfo("DONE");
+            log.writeDebug("Beginning to list files");
 
             foreach (var file in files)
             {
                 String filePath = file.ToString().Substring(file.LastIndexOf("\\") + 1);
-                if (!filePath.Equals("log.txt")){
-                    log.writeDebug("Found file " + filePath);
+                if (!filePath.Equals("log.txt"))
+                {
+                    log.writeInfo("Found file " + filePath);
                     website.addFile(file.ToString());
                 }
             }
-            log.writeDebug(files.Count<string>().ToString() + " files found");
+            log.writeDebug("DONE");
+            log.writeInfo(files.Count<string>().ToString() + " files found");
+            log.writeDebug("Done finding files");
             return new List<String>();
         }
     }
