@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HtmlHeaderPlugin.cs" />
     <Compile Include="CrawlerController.cs" />
     <Compile Include="CrawlerPlugin.cs" />
     <Compile Include="DatabaseAccessor.cs" />
