@@ -11,7 +11,7 @@ namespace Crawler
     {
         public CrawlerController(String path, int depth)
         {
-           
+            
             String outputPath = path.Substring(path.IndexOf('.') + 1,path.LastIndexOf('.') - path.IndexOf('.') -1) + "-" + DateTime.Now.Month.ToString().PadLeft(2, '0') + DateTime.Now.Day.ToString().PadLeft(2, '0') + DateTime.Now.Year.ToString() + DateTime.Now.ToFileTime().ToString();
          
             String arguments = path + " -g -r" + depth.ToString() + " -O " + outputPath;
@@ -40,6 +40,10 @@ namespace Crawler
             //Try to analyse an SSL certificate, if there is one
             CrawlerPlugin ssl = new SSLConfirmationPlugin(site, dbAccess, crawlID, log);
             ssl.analyzeSite();
+
+            //Get headers
+            CrawlerPlugin headers = new HtmlHeaderPlugin(site, dbAccess, crawlID, log);
+            headers.analyzeSite();
             
             
             //HTML Parser
