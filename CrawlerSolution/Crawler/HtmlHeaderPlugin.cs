@@ -34,15 +34,29 @@ namespace Crawler
             try
             {
                 var response = (HttpWebResponse)request.GetResponse();
-                try
-                {
-                    var serverType = response.Headers.Get("Server");
-                    logger.writeInfo("Server type is: " + serverType);
-                }
-                catch (Exception e)
-                {
-                    logger.writeError("HTTP Response did not have 'Server' field");
-                } 
+                var serverType = response.Headers.Get("Server");
+                logger.writeInfo("Server type is: " + serverType);
+
+                var warningField = response.Headers.Get("Warning");
+                logger.writeInfo("Warning field contains: " + warningField);
+
+                logger.writeInfo("Checking Non-standard headers for technology information...");
+                
+                var poweredBy = response.Headers.Get("X-Powered-By");
+                logger.writeInfo("X-Powered-By field is: " + poweredBy);
+
+                var xversion = response.Headers.Get("X-Version");
+                logger.writeInfo("X-Version field is: " + xversion);
+
+                var xruntime = response.Headers.Get("X-Runtime");
+                logger.writeInfo("X-Runtime field is: " + xruntime);
+
+                var xasp = response.Headers.Get("X-AspNet-Version");
+                logger.writeInfo("X-AspNet-Version field is: " + xasp);
+
+                var xssprot = response.Headers.Get("X-XSS-Protection");
+                logger.writeInfo("X-XSS-Protection field is: " + xssprot);
+
             }
             catch(Exception e)
             {
