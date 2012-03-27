@@ -11,8 +11,10 @@ namespace Crawler
     {
         public CrawlerController(String path, int depth)
         {
+            const string VERSION_NUMBER = "2.1";
+            Console.Out.WriteLine("Version Number " + VERSION_NUMBER);
             
-            String outputPath = path.Substring(path.IndexOf('.') + 1,path.LastIndexOf('.') - path.IndexOf('.') -1) + "-" + DateTime.Now.Month.ToString().PadLeft(2, '0') + DateTime.Now.Day.ToString().PadLeft(2, '0') + DateTime.Now.Year.ToString() + DateTime.Now.ToFileTime().ToString();
+            String outputPath = path.Substring(path.IndexOf('.') + 1,path.LastIndexOf('.') - path.IndexOf('.') -1) + "-" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "-" + DateTime.Now.Day.ToString().PadLeft(2, '0') +  "-" + DateTime.Now.Year.ToString() + "_" + DateTime.Now.Hour.ToString() + "-" + DateTime.Now.Minute.ToString() ;
          
             String arguments = path + " -g -r" + depth.ToString() + " -O " + outputPath;
             //DEBUG - Console.WriteLine("Running httrack with arguments: " + arguments);
@@ -29,12 +31,14 @@ namespace Crawler
             //initialize the log
             Log log = new Log(outputPath + "\\log.txt");
             log.writeInfo("Log created correctly");
+            log.writeInfo("Website: " + path + "== CrawlLevel: " + depth.ToString());
+            log.writeInfo("Running version: " + VERSION_NUMBER);
 
             //initalize the database accessor class
             log.writeDebug("Creating database object");
-            DatabaseAccessor dbAccess = new DatabaseAccessor(log);
-            dbAccess.addWebsite(path, null, null, null);
-            int crawlID = dbAccess.newCrawl(path,"example@gmail.com");
+            DatabaseAccessor dbAccess = null;//new DatabaseAccessor(log);
+            //dbAccess.addWebsite(path, null, null, null);
+            int crawlID = 0;// dbAccess.newCrawl(path, "example@gmail.com");
 
             //Parse website
             WebsiteParser siteparser = new WebsiteParser(site, dbAccess, crawlID, log);

@@ -32,7 +32,7 @@ namespace Crawler
                 }
             }
             log.writeDebug("DONE");
-            log.writeInfo(files.Count<string>().ToString() + " files found");
+            log.writeInfo((files.Count<string>() - 1).ToString() + " files found");
             log.writeDebug("Done finding files");
             return new List<String>();
         }
