@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 
 namespace Crawler
 {
@@ -11,8 +12,10 @@ namespace Crawler
     {
         public CrawlerController(String path, int depth)
         {
-            const string VERSION_NUMBER = "2.1";
-            Console.Out.WriteLine("Version Number " + VERSION_NUMBER);
+            Assembly assem = Assembly.GetEntryAssembly();
+            AssemblyName aName = assem.GetName();
+            Version ver = aName.Version;
+            Console.Out.WriteLine("Application {0}, Version {1}", aName.Name, ver.ToString());
             
             String outputPath = path.Substring(path.IndexOf('.') + 1,path.LastIndexOf('.') - path.IndexOf('.') -1) + "-" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "-" + DateTime.Now.Day.ToString().PadLeft(2, '0') +  "-" + DateTime.Now.Year.ToString() + "_" + DateTime.Now.Hour.ToString() + "-" + DateTime.Now.Minute.ToString() ;
          
@@ -31,8 +34,8 @@ namespace Crawler
             //initialize the log
             Log log = new Log(outputPath + "\\log.txt");
             log.writeInfo("Log created correctly");
-            log.writeInfo("Website: " + path + "== CrawlLevel: " + depth.ToString());
-            log.writeInfo("Running version: " + VERSION_NUMBER);
+            log.writeInfo("Website: " + path + " == CrawlLevel: " + depth.ToString());
+            log.writeInfo("Running version: " + aName.Version.ToString());
 
             //initalize the database accessor class
             log.writeDebug("Creating database object");
