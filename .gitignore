@@ -1,6 +1,7 @@
 #compiled stuff
 *.pdb
 *.exe
+*.user
 
 bin
 obj
