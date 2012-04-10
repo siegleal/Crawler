@@ -1,0 +1,202 @@
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (Web2C 2011) (format=pdflatex 2012.3.12)  20 MAR 2012 09:35
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**ReqsAndSpecs.tex
+(./ReqsAndSpecs.tex
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman-x-2011-07-01, ngerman-x-2011-07-01, basque, catalan, czech, dutch, ukengli
+sh, usenglishmax, french, galician, german, ngerman, swissgerman, italian, poli
+sh, portuguese, slovak, spanish, loaded.
+(c:/texlive/2011/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(c:/texlive/2011/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(c:/texlive/2011/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+(c:/texlive/2011/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(c:/texlive/2011/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+(c:/texlive/2011/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2010/03/01 v1.5 Switches for detecting VTeX and its modes (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(c:/texlive/2011/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count87
+\Gm@cntv=\count88
+\c@Gm@tempcnt=\count89
+\Gm@bindingoffset=\dimen103
+\Gm@wd@mp=\dimen104
+\Gm@odd@mp=\dimen105
+\Gm@even@mp=\dimen106
+\Gm@layoutwidth=\dimen107
+\Gm@layoutheight=\dimen108
+\Gm@layouthoffset=\dimen109
+\Gm@layoutvoffset=\dimen110
+\Gm@dimlist=\toks15
+)
+(c:/texlive/2011/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
+
+(c:/texlive/2011/texmf-dist/tex/latex/tools/array.sty
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen111
+\extrarowheight=\dimen112
+\NC@list=\toks16
+\extratabsurround=\skip43
+\backup@length=\skip44
+)
+\TX@col@width=\dimen113
+\TX@old@table=\dimen114
+\TX@old@col=\dimen115
+\TX@target=\dimen116
+\TX@delta=\dimen117
+\TX@cols=\count90
+\TX@ftn=\toks17
+)
+(c:/texlive/2011/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
+
+(c:/texlive/2011/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(c:/texlive/2011/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(c:/texlive/2011/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(c:/texlive/2011/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(c:/texlive/2011/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
+)
+(c:/texlive/2011/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count91
+)))
+(c:/texlive/2011/texmf-dist/tex/latex/base/makeidx.sty
+Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
+)
+(c:/texlive/2011/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+\Gin@req@height=\dimen118
+\Gin@req@width=\dimen119
+)
+(c:/texlive/2011/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count92
+\float@exts=\toks18
+\float@box=\box26
+\@float@everytoks=\toks19
+\@floatcapt=\box27
+)
+(c:/texlive/2011/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2012/02/06 v6.82o Hypertext links for LaTeX
+
+(c:/texlive/2011/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2011/04/23 v1.4 Bundle oberdiek, subset hyperref (HO)
+
+(c:/texlive/2011/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2011/04/23 v1.4 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2011/04/23 v1.4 Subsetting bundle oberdiek (HO)
+Package hobsub Info: Skipping package `infwarerr' (already loaded).
+Package hobsub Info: Skipping package `ltxcmds' (already loaded).
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package hobsub Info: Skipping package `ifvtex' (already loaded).
+Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
+Package: etexcmds 2011/02/16 v1.5 Prefix for e-TeX command names (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2011/04/07 v1.13 Key value parser (HO)
+Package: kvdefinekeys 2011/04/07 v1.3 Defining keys (HO)
+Package: pdftexcmds 2011/04/22 v0.16 Utilities of pdfTeX for LuaTeX (HO)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2011/04/04 v1.12 Provides string conversions (HO)
+Package: bigintcalc 2011/01/30 v1.2 Expandable big integer calculations (HO)
+Package: bitset 2011/01/30 v1.1 Data type bit set (HO)
+Package: uniquecounter 2011/01/30 v1.2 Provides unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
+Package: hopatch 2011/01/30 v1.0 Wrapper for package hooks (HO)
+Package: xcolor-patch 2011/01/30 xcolor patch
+Package: atveryend 2011/04/23 v1.7 Hooks at very end of document (HO)
+Package: atbegshi 2011/01/30 v1.15 At begin shipout hook (HO)
+Package: refcount 2010/12/01 v3.2 Data extraction from references (HO)
+Package: hycolor 2011/01/30 v1.7 Color options of hyperref/bookmark (HO)
+)
+(c:/texlive/2011/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2010/12/23 v3.10 Keyval support for LaTeX options (HO)
+)
+\@linkdim=\dimen120
+\Hy@linkcounter=\count93
+\Hy@pagecounter=\count94
+
+(c:/texlive/2011/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2012/02/06 v6.82o Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count95
+
+(c:/texlive/2011/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4046.
+Package hyperref Info: Link nesting OFF on input line 4051.
+Package hyperref Info: Hyper index ON on input line 4054.
+Package hyperref Info: Plain pages OFF on input line 4061.
+Package hyperref Info: Backreferencing OFF on input line 4066.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4284.
+\c@Hy@tempcnt=\count96
+
+(c:/texlive/2011/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip10
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4637.
+\Fld@menulength=\count97
+\Field@Width=\dimen121
+\Fld@charsize=\dimen122
+Package hyperref Info: Hyper figures OFF on input line 5757.
+Package hyperref Info: Link nesting OFF on input line 5762.
+Package hyperref Info: Hyper index ON on input line 5765.
+Package hyperref Info: backreferencing OFF on input line 5772.
+Package hyperref Info: Link coloring OFF on input line 5777.
+Package hyperref Info: Link coloring with OCG OFF on input line 5782.
+Package hyperref Info: PDF/A mode OFF on input line 5787.
+LaTeX Info: Redefining \ref on input line 5827.
+LaTeX Info: Redefining \pageref on

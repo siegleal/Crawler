@@ -29,10 +29,10 @@ namespace Crawler
             int i = 0;
             while ((line = file.ReadLine()) != null)
             {
-                int s = line.IndexOf("\t");
-                searchStringList.Add(line.Substring(0, s));
-                descriptionList.Add(line.Substring(s+1, line.Length-s-1));
-                i++;
+                //int s = line.IndexOf("\t");
+                //searchStringList.Add(line.Substring(0, s));
+                //descriptionList.Add(line.Substring(s+1, line.Length-s-1));
+                //i++;
             }
         }
 

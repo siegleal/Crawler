@@ -23,6 +23,7 @@ namespace Crawler
             //DEBUG - Console.WriteLine("Running httrack with arguments: " + arguments);
             Process p = Process.Start(Directory.GetCurrentDirectory() + "/httrack/httrack.exe", arguments);
             p.WaitForExit();
+            //Directory.CreateDirectory(output);
 
             String foldername = outputPath;
             outputPath =  Directory.GetCurrentDirectory() + "\\"  +  outputPath;
