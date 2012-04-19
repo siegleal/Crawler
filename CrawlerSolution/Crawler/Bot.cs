@@ -8,51 +8,23 @@ using System.Net;
 
 namespace Crawler
 {
-    class CrawlResult
+    class FileSystemInteractor
     {
-        public int ReturnCode { get; set; }
-        public string ReturnStatus { get; set; }
-        public string html { get; set; }
-
+        public void MakeDirectory(string path)
+        {
+            Directory.CreateDirectory(path);
+        }
     }
-    //The bot class will be given a site and a crawl level
-    //It will begin by looking at the index.html file and finding all links
-    //in that file and repeat up to crawl level
-    //
-    class Bot
+
+    class WebInteractor
     {
-        private String _baseurl;
-        private int _crawllevel;
-        private Website _website;
-        private Log _log;
-        private DatabaseAccessor _dba;
+        private string _baseurl;
         private string _basePath;
 
-        public List<CrawlResult> ResultsList { get; set; } 
-
-        
-
-        public Bot(string url, int level, Website website,Log l,DatabaseAccessor dba)
-        {
-            _baseurl = url;
-            _crawllevel = level;
-            _website = website;
-            _log = l;
-            _dba = dba;
-
-            ResultsList = new List<CrawlResult>();
-        }
-
-        private string CreateRootDirectory()
-        {
-            string result = (_baseurl + "_" +  DateTime.Now.ToString("hh-mm_MM-dd-yyyy"));
-            Directory.CreateDirectory(result);
-            return result;
-        }
-
-        private void CrawlPage(string urlextension)
+        public CrawlResult GetPage(string url)
         {
             CrawlResult cr = new CrawlResult();
+            string urlExtension = url.TrimStart(_baseurl.ToCharArray());
 
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(_baseurl);
             request.Method = "GET";
@@ -66,16 +38,16 @@ namespace Crawler
                 var html = reader.ReadToEnd();
 
                 WebClient wc = new WebClient();
-                if (urlextension.Equals(""))
-                    wc.DownloadFile(_baseurl + urlextension,_basePath + "\\index.html");
+                if (urlExtension.Equals(""))
+                    wc.DownloadFile(_baseurl + urlExtension,_basePath + "\\index.html");
                 else
                 {
-                    wc.DownloadFile(_baseurl + urlextension,_basePath + "\\" + urlextension);
+                    wc.DownloadFile(_baseurl + urlExtension,_basePath + "\\" + urlExtension);
                 }
 
                 cr.ReturnCode = (int) response.StatusCode;
                 cr.ReturnStatus = response.StatusDescription;
-                cr.html = html;
+                cr.Html = html;
 
 
 
@@ -95,13 +67,66 @@ namespace Crawler
                 Console.Out.WriteLine(@"Error: {0} ({1}) {2}",((HttpWebResponse)we.Response).ResponseUri, (int)code, code);
 
             }
-            ResultsList.Add(cr);
+
+            return cr;
         }
+
+        public List<CrawlResult> CrawlSite(string url, int level)
+        {
+            
+        } 
+    }
+    class CrawlResult
+    {
+        public int ReturnCode { get; set; }
+        public string ReturnStatus { get; set; }
+        public string Html { get; set; }
+
+    }
+    //The bot class will be given a site and a crawl level
+    //It will begin by looking at the index.html file and finding all links
+    //in that file and repeat up to crawl level
+    //
+    class Bot
+    {
+        private String _baseurl;
+        private Website _website;
+        private Log _log;
+        private DatabaseAccessor _dba;
+        private string _basePath;
+        private WebInteractor _webinteractor;
+        private FileSystemInteractor _fsinteractor;
+
+        public List<CrawlResult> ResultsList { get; set; } 
+
+        
+
+        public Bot(Website website, Log l,DatabaseAccessor dba, WebInteractor wi, FileSystemInteractor fsi)
+        {
+            _baseurl = website.url;
+            _website = website;
+            _log = l;
+            _dba = dba;
+            _webinteractor = wi;
+            _fsinteractor = fsi;
+
+            ResultsList = new List<CrawlResult>();
+        }
+
+        private string CreateRootDirectory()
+        {
+            string dirPath = string.Format("{0}_{1}", _baseurl, DateTime.Now.ToString("hh-mm_MM-dd-yyyy"));
+            _fsinteractor.MakeDirectory(dirPath);
+            return dirPath;
+        }
+
+        
        
 
         public void CrawlSite()
         {
             //the meat of the crawler will be in here
+           
             _basePath = CreateRootDirectory();
             _baseurl = "http://" + _baseurl;
             CrawlPage("");
@@ -112,5 +137,7 @@ namespace Crawler
         }
 
 
+
+        
     }
 }
