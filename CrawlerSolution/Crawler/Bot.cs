@@ -129,7 +129,7 @@ namespace Crawler
            
             _basePath = CreateRootDirectory();
             _baseurl = "http://" + _baseurl;
-            CrawlPage("");
+            //CrawlPage("");
             
 
             //return cr;
