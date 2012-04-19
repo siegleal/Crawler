@@ -10,14 +10,14 @@ namespace Crawler
     {
         private string path;
         private Bot b;
-        private MockRepository mock;
+        private MockRepository _mock;
         
         
 
         [SetUp]
         public void Init()
         {
-            mock = new MockRepository();
+            _mock = new MockRepository();
         }
 
         [Test]
@@ -30,7 +30,20 @@ namespace Crawler
         [Test]
         public void TestCreateDirectory()
         {
-            
+            Website web = new Website("www.test.com","");
+            Log l = MockRepository.GenerateStub<Log>();
+            WebInteractor wi = MockRepository.GenerateStub<WebInteractor>();
+            FileSystemInteractor fsi = MockRepository.GenerateStub<FileSystemInteractor>();
+
+            Bot b = new Bot(web, l, null, wi, fsi);
+
+            using(_mock.Record())
+            {
+            }
+    
+
+
+
         }
 
         [Test]//Mikey
