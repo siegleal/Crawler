@@ -73,7 +73,8 @@ namespace Crawler
 
         public List<CrawlResult> CrawlSite(string url, int level)
         {
-            
+            return null;
+
         } 
     }
     class CrawlResult
