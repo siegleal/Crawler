@@ -124,12 +124,13 @@ namespace Crawler
         
        
 
-        public void CrawlSite()
+        public List<CrawlResult> CrawlSite()
         {
             //the meat of the crawler will be in here
            
             _basePath = CreateRootDirectory();
             _baseurl = "http://" + _baseurl;
+
             //CrawlPage("");
             
 
