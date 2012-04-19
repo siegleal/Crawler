@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Rhino.Mocks;
+using System.Collections.Generic;
 
 
 
@@ -37,14 +38,50 @@ namespace Crawler
         public void TestStatus200()
         {
             WebInteractor web = MockRepository.GenerateStub<WebInteractor>();
+            Log mockLog = MockRepository.GenerateStub<Log>();
+            DatabaseAccessor mockDB = MockRepository.GenerateStub<DatabaseAccessor>();
+            FileSystemInteractor mockFSI = MockRepository.GenerateStub<FileSystemInteractor>();
+            Website site = new Website("http://whocares.com", "whatever");
+            Bot useableBot = new Bot(site, mockLog, mockDB, web, mockFSI);
 
+            using(mock.Record())
+            {
+                CrawlResult retVal = new CrawlResult();
+                retVal.ReturnCode = 200;
 
+                List<CrawlResult> retList = new List<CrawlResult>();
+                retList.Add(retVal);
+                Expect.Call(web.CrawlSite(site.url, 0)).Return(retList);
+            }
+
+            List<CrawlResult> checkAgainst = useableBot.CrawlSite();
+
+            Assert.AreEqual(checkAgainst[0].ReturnCode, 200);
         }
 
         [Test]//Mikey
         public void TestStatus404()
         {
-            
+            WebInteractor web = MockRepository.GenerateStub<WebInteractor>();
+            Log mockLog = MockRepository.GenerateStub<Log>();
+            DatabaseAccessor mockDB = MockRepository.GenerateStub<DatabaseAccessor>();
+            FileSystemInteractor mockFSI = MockRepository.GenerateStub<FileSystemInteractor>();
+            Website site = new Website("http://whocares.com", "whatever");
+            Bot useableBot = new Bot(site, mockLog, mockDB, web, mockFSI);
+
+            using (mock.Record())
+            {
+                CrawlResult retVal = new CrawlResult();
+                retVal.ReturnCode = 404;
+
+                List<CrawlResult> retList = new List<CrawlResult>();
+                retList.Add(retVal);
+                Expect.Call(web.CrawlSite(site.url, 0)).Return(retList);
+            }
+
+            List<CrawlResult> checkAgainst = useableBot.CrawlSite();
+
+            Assert.AreEqual(checkAgainst[0].ReturnCode, 404);
         }
 
         [Test]
