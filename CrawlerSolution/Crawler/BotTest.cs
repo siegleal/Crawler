@@ -36,7 +36,9 @@ namespace Crawler
         [Test]//Mikey
         public void TestStatus200()
         {
-            
+            WebInteractor web = MockRepository.GenerateStub<WebInteractor>();
+
+
         }
 
         [Test]//Mikey
