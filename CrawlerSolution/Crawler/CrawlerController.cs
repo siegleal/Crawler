@@ -29,7 +29,7 @@ namespace Crawler
             outputPath =  Directory.GetCurrentDirectory() + "\\"  +  outputPath;
 
             //TESTING
-            Bot b = new Bot("www.google.com/", 0, null, null, null);
+            Bot b = new Bot("www.rose-hulman.edu", 0, null, null, null);
             b.CrawlSite();
             
             //initialize the website

@@ -43,23 +43,23 @@ namespace Crawler
             
         }
 
-        [Test]
-        public void Test404ReturnCode()
-        {
-            Bot b = new Bot("www.google.com/doesntexist", 0, null, null, null);
-            CrawlResult cr = b.CrawlSite();
-            Assert.AreEqual(cr.ReturnCode,404);
-            Assert.AreEqual("NotFound",cr.ReturnStatus);
-        } 
-
-        [Test]
-        public void Test200ReturnCode()
-        {
-            Bot b = new Bot("www.google.com", 0, null, null, null);
-            CrawlResult cr = b.CrawlSite();
-            Assert.AreEqual(cr.ReturnCode,200);
-            Assert.AreEqual(cr.ReturnStatus,"OK");
-        }
+//        [Test]
+//        public void Test404ReturnCode()
+//        {
+//            Bot b = new Bot("www.google.com/doesntexist", 0, null, null, null);
+//            CrawlResult cr = b.CrawlSite();
+//            Assert.AreEqual(cr.ReturnCode,404);
+//            Assert.AreEqual("NotFound",cr.ReturnStatus);
+//        } 
+//
+//        [Test]
+//        public void Test200ReturnCode()
+//        {
+//            Bot b = new Bot("www.google.com", 0, null, null, null);
+//            CrawlResult cr = b.CrawlSite();
+//            Assert.AreEqual(cr.ReturnCode,200);
+//            Assert.AreEqual(cr.ReturnStatus,"OK");
+//        }
 
 //        [Test]
 //        public void TestChristmasHTML()

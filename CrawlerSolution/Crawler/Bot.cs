@@ -26,6 +26,9 @@ namespace Crawler
         private Website _website;
         private Log _log;
         private DatabaseAccessor _dba;
+        private string _basePath;
+
+        public List<CrawlResult> ResultsList { get; set; } 
 
         
 
@@ -36,36 +39,39 @@ namespace Crawler
             _website = website;
             _log = l;
             _dba = dba;
+
+            ResultsList = new List<CrawlResult>();
         }
 
         private string CreateRootDirectory()
         {
-            string result = (_baseurl + "_" + DateTime.Now.ToString("hh-mm_MM-dd-yyyy"));
+            string result = (_baseurl + "_" +  DateTime.Now.ToString("hh-mm_MM-dd-yyyy"));
             Directory.CreateDirectory(result);
             return result;
         }
 
-       
-
-        public CrawlResult CrawlSite()
+        private void CrawlPage(string urlextension)
         {
-            //the meat of the crawler will be in here
-            string basePath = CreateRootDirectory();
             CrawlResult cr = new CrawlResult();
 
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://" + _baseurl);
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(_baseurl);
             request.Method = "GET";
             request.AllowAutoRedirect = false;
 
             try
             {
-
+                //the index page
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 var reader = new StreamReader(response.GetResponseStream());
                 var html = reader.ReadToEnd();
 
                 WebClient wc = new WebClient();
-                wc.DownloadFile("http://" + _baseurl,basePath +"/testfile.html");
+                if (urlextension.Equals(""))
+                    wc.DownloadFile(_baseurl + urlextension,_basePath + "\\index.html");
+                else
+                {
+                    wc.DownloadFile(_baseurl + urlextension,_basePath + "\\" + urlextension);
+                }
 
                 cr.ReturnCode = (int) response.StatusCode;
                 cr.ReturnStatus = response.StatusDescription;
@@ -73,7 +79,7 @@ namespace Crawler
 
 
 
-
+                //DEBUG INFO
                 Console.Out.WriteLine(@"HTTP Version: {0}", response.ProtocolVersion);
                 Console.Out.WriteLine(@"Status code: {0}", (int)response.StatusCode);
                 Console.Out.WriteLine(@"Status description: {0}", response.StatusDescription);
@@ -89,8 +95,19 @@ namespace Crawler
                 Console.Out.WriteLine(@"Error: {0} ({1}) {2}",((HttpWebResponse)we.Response).ResponseUri, (int)code, code);
 
             }
+            ResultsList.Add(cr);
+        }
+       
 
-            return cr;
+        public void CrawlSite()
+        {
+            //the meat of the crawler will be in here
+            _basePath = CreateRootDirectory();
+            _baseurl = "http://" + _baseurl;
+            CrawlPage("");
+            
+
+            //return cr;
 
         }
 
