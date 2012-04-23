@@ -8,7 +8,7 @@ using System.Net;
 
 namespace Crawler
 {
-    class FileSystemInteractor
+    public class FileSystemInteractor
     {
         public void MakeDirectory(string path)
         {
@@ -16,7 +16,7 @@ namespace Crawler
         }
     }
 
-    class WebInteractor
+    public class WebInteractor
     {
         private string _baseurl;
         private string _basePath;
@@ -77,7 +77,7 @@ namespace Crawler
 
         } 
     }
-    class CrawlResult
+    public class CrawlResult
     {
         public int ReturnCode { get; set; }
         public string ReturnStatus { get; set; }
@@ -88,7 +88,7 @@ namespace Crawler
     //It will begin by looking at the index.html file and finding all links
     //in that file and repeat up to crawl level
     //
-    class Bot
+    public class Bot
     {
         private String _baseurl;
         private Website _website;
