@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using Rhino.Mocks;
-using System.Collections.Generic;
 
+using System.Collections.Generic;
+using Rhino.Mocks;
 
 
 namespace Crawler
@@ -32,16 +32,14 @@ namespace Crawler
         public void TestCreateDirectory()
         {
             Website web = new Website("www.test.com","");
-            Log l = MockRepository.GenerateStub<Log>();
+            Log l = MockRepository.GenerateStub<Log>("samplepath");
             WebInteractor wi = MockRepository.GenerateStub<WebInteractor>();
             FileSystemInteractor fsi = MockRepository.GenerateStub<FileSystemInteractor>();
 
             Bot b = new Bot(web, l, null, wi, fsi);
 
-            using(_mock.Record())
-            {
-            }
     
+            fsi.AssertWasCalled(mock => mock.MakeDirectory("samplepath"));
 
 
 
@@ -57,6 +55,7 @@ namespace Crawler
             Website site = new Website("http://whocares.com", "whatever");
             Bot useableBot = new Bot(site, mockLog, mockDB, web, mockFSI);
 
+            MockRepository mock = new MockRepository();
             using(mock.Record())
             {
                 CrawlResult retVal = new CrawlResult();
@@ -82,6 +81,7 @@ namespace Crawler
             Website site = new Website("http://whocares.com", "whatever");
             Bot useableBot = new Bot(site, mockLog, mockDB, web, mockFSI);
 
+            MockRepository mock = new MockRepository();
             using (mock.Record())
             {
                 CrawlResult retVal = new CrawlResult();

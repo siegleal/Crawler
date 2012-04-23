@@ -131,6 +131,8 @@ namespace Crawler
             _basePath = CreateRootDirectory();
             _baseurl = "http://" + _baseurl;
 
+            return new List<CrawlResult>();
+
             //CrawlPage("");
             
 
