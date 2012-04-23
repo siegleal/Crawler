@@ -124,12 +124,13 @@ namespace Crawler
         
        
 
-        public List<CrawlResult> CrawlSite()
+        public List<CrawlResult> CrawlSite(int level)
         {
             //the meat of the crawler will be in here
            
             _basePath = CreateRootDirectory();
             _baseurl = "http://" + _baseurl;
+            _webinteractor.CrawlSite(_website.url, level);
 
             return new List<CrawlResult>();
 
