@@ -63,11 +63,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SSLConfirmationPlugin.cs" />
     <Compile Include="StringMatchStrategy.cs" />
+    <Compile Include="WebInteractorInterface.cs" />
     <Compile Include="Website.cs" />
     <Compile Include="WebsiteParser.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="DCD.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -16,7 +16,7 @@ namespace Crawler
         }
     }
 
-    public class WebInteractor
+    public class WebInteractor : IWebInteractor
     {
         private string _baseurl;
         private string _basePath;
@@ -73,7 +73,7 @@ namespace Crawler
 
         public List<CrawlResult> CrawlSite(string url, int level)
         {
-            return null;
+            return new List<CrawlResult>();
 
         } 
     }
@@ -95,14 +95,14 @@ namespace Crawler
         private Log _log;
         private DatabaseAccessor _dba;
         private string _basePath;
-        private WebInteractor _webinteractor;
+        private IWebInteractor _webinteractor;
         private FileSystemInteractor _fsinteractor;
 
         public List<CrawlResult> ResultsList { get; set; } 
 
         
 
-        public Bot(Website website, Log l,DatabaseAccessor dba, WebInteractor wi, FileSystemInteractor fsi)
+        public Bot(Website website, Log l,DatabaseAccessor dba, IWebInteractor wi, FileSystemInteractor fsi)
         {
             _baseurl = website.url;
             _website = website;
@@ -130,9 +130,7 @@ namespace Crawler
            
             _basePath = CreateRootDirectory();
             _baseurl = "http://" + _baseurl;
-            _webinteractor.CrawlSite(_website.url, level);
-
-            return new List<CrawlResult>();
+            return _webinteractor.CrawlSite(_website.url, level);
 
             //CrawlPage("");
             

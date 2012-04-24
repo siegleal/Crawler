@@ -46,54 +46,106 @@ namespace Crawler
 
         }
 
+        [Test]
+        public void TestBotCallsCrawlSiteOnWebInteractor()
+        {
+            MockRepository mocks = new MockRepository();
+            var web = MockRepository.GenerateStub<IWebInteractor>();
+            var site = new Website("www.whocares.com", "whatever");
+            var mockFSI = MockRepository.GenerateStub<FileSystemInteractor>();
+
+            var useableBot = new Bot(site, null, null, web, mockFSI);
+            useableBot.CrawlSite(1);
+            web.AssertWasCalled(s => s.CrawlSite("www.whocares.com", 1));
+        }
+        
+        [Test]
+        public void TestStatus200()
+        {
+            MockRepository mocks = new MockRepository();
+            var web = mocks.StrictMock<IWebInteractor>();
+            var site = new Website("www.whocares.com", "whatever");
+            var mockFSI = MockRepository.GenerateStub<FileSystemInteractor>();
+
+            var retVal = new CrawlResult();
+            retVal.ReturnCode = 200;
+            var retList = new List<CrawlResult>();
+            retList.Add(retVal);
+
+            Expect.On(web).Call(web.CrawlSite("www.whocares.com", 1)).Return(retList);
+            mocks.ReplayAll();
+
+
+            var useableBot = new Bot(site, null, null, web, mockFSI);
+            var check = useableBot.CrawlSite(1);
+
+            Assert.IsTrue(check[0].ReturnCode == 200);
+
+            mocks.VerifyAll();
+
+//            using (mocks.Record())
+//            {
+//                web.CrawlSite("www.whocares.com", 1);
+//                LastCall.Return(retList);
+//            }
+//
+//            using (mocks.Playback())
+//            {
+//                var useableBot = new Bot(site, null, null, web, mockFSI);
+//                var check = useableBot.CrawlSite(1);
+//                Assert.IsTrue(check[0].ReturnCode == 200);
+//            }
+
+//            var useableBot = new Bot(site, null, null, web, mockFSI);
+//            useableBot.CrawlSite(1);
+
+            //web.VerifyAllExpectations();
+        } 
+/*
         [Test]//Mikey
         public void TestStatus200()
         {
-            WebInteractor web = MockRepository.GenerateStub<WebInteractor>();
+            WebInteractor web = MockRepository.GenerateMock<WebInteractor>();
             Log mockLog = MockRepository.GenerateStub<Log>("samplelog200.txt");
             DatabaseAccessor mockDB = MockRepository.GenerateStub<DatabaseAccessor>(mockLog);
             FileSystemInteractor mockFSI = MockRepository.GenerateStub<FileSystemInteractor>();
             Website site = new Website("http://whocares.com", "whatever");
             Bot useableBot = new Bot(site, mockLog, mockDB, web, mockFSI);
+            
+            CrawlResult retVal = new CrawlResult();
+            retVal.ReturnCode = 200;
+            List<CrawlResult> retList = new List<CrawlResult>();
+            retList.Add(retVal);
+            web.Expect(x => x.CrawlSite("http://whocares.com", 1)).Return(retList);
 
-            MockRepository mock = new MockRepository();
-            using(mock.Record())
-            {
-                CrawlResult retVal = new CrawlResult();
-                retVal.ReturnCode = 200;
 
-                List<CrawlResult> retList = new List<CrawlResult>();
-                retList.Add(retVal);
-                Expect.Call(web.CrawlSite(site.url, 1)).Return(retList);
-            }
-
-            List<CrawlResult> checkAgainst = useableBot.CrawlSite(1);
-
-            Assert.AreEqual(checkAgainst[0].ReturnCode, 200);
+            useableBot.CrawlSite(1);
+            web.VerifyAllExpectations();
         }
-
+ */
         [Test]//Mikey
         public void TestStatus404()
         {
-            WebInteractor web = MockRepository.GenerateStub<WebInteractor>();
-            Log mockLog = MockRepository.GenerateStub<Log>("samplelog404.txt");
-            DatabaseAccessor mockDB = MockRepository.GenerateStub<DatabaseAccessor>(mockLog);
-            FileSystemInteractor mockFSI = MockRepository.GenerateStub<FileSystemInteractor>();
-            Website site = new Website("http://whocares.com", "whatever");
-            Bot useableBot = new Bot(site, mockLog, mockDB, web, mockFSI);
+            MockRepository mocks = new MockRepository();
+            var web = mocks.StrictMock<IWebInteractor>();
+            var site = new Website("www.whocares.com", "whatever");
+            var mockFSI = MockRepository.GenerateStub<FileSystemInteractor>();
 
-            MockRepository mock = new MockRepository();
-            using (mock.Record())
-            {
-                CrawlResult retVal = new CrawlResult();
-                retVal.ReturnCode = 404;
+            var retVal = new CrawlResult();
+            retVal.ReturnCode = 404;
+            var retList = new List<CrawlResult>();
+            retList.Add(retVal);
 
-                List<CrawlResult> retList = new List<CrawlResult>();
-                retList.Add(retVal);
-                Expect.Call(web.CrawlSite(site.url, 1)).Return(retList);
-                List<CrawlResult> checkAgainst = useableBot.CrawlSite(1);
-                Assert.AreEqual(checkAgainst[0].ReturnCode, 404);
-            }
+            Expect.On(web).Call(web.CrawlSite("www.whocares.com", 1)).Return(retList);
+            mocks.ReplayAll();
+
+
+            var useableBot = new Bot(site, null, null, web, mockFSI);
+            var check = useableBot.CrawlSite(1);
+
+            Assert.IsTrue(check[0].ReturnCode == 404);
+
+            mocks.VerifyAll();
 
 
         }
@@ -111,8 +163,7 @@ namespace Crawler
         [Test]
         public void TestTwoLink()
         {
-
-        }
+ }
 
 //        [Test]
 //        public void TestDirectory()
