@@ -131,33 +131,44 @@ namespace Crawler
         {
             string baseUrl = _website.url;
             List<CrawlResult> returnList = new List<CrawlResult>();
+            List<string> alreadyParsed = new List<string>();
+            alreadyParsed.Add("/");
 
             CrawlResult result = _webinteractor.GetPage(baseUrl);
             returnList.Add(result);
 
            
-            string pattern = @"/\w+[\w/]*\.\w+";
-            List<String> relativeMatches = new List<string>();
+            string pattern = @"/(\w+[\w/]*\.\w+)*";
+            List<DepthResult> relativeMatches = new List<DepthResult>();
             foreach (String str in GetMatches(pattern,result.Html))
             {
-                relativeMatches.Add(str);
+                if (!alreadyParsed.Contains(str))
+                {
+                    relativeMatches.Add(new DepthResult(str.TrimEnd('/'), 1));
+                    alreadyParsed.Add(str);
+                }
             }
 
             int i = 0;
             while (i < relativeMatches.Count)
             {
-                string match = relativeMatches[i];
-                CrawlResult newResult = _webinteractor.GetPage(baseUrl + match);
+                DepthResult match = relativeMatches[i];
+                CrawlResult newResult = _webinteractor.GetPage(baseUrl + match.RelPath);
 
-                foreach (String str in GetMatches(pattern, newResult.Html))
+                if (match.Level < level)
                 {
-                    relativeMatches.Add(str);
+                    foreach (String str in GetMatches(pattern, newResult.Html))
+                    {
+                        if (!alreadyParsed.Contains(str))
+                        {
+                            relativeMatches.Add(new DepthResult(str.TrimEnd('/'), match.Level + 1));
+                            alreadyParsed.Add(str);
+                        }
+                    }
                 }
                 returnList.Add(newResult);
                 i++;
             }
-
-
 
             return returnList;
 
@@ -174,7 +185,20 @@ namespace Crawler
             }
 
             return returnList;
+        }
 
+        private class DepthResult
+        {
+            public string RelPath { get; set; }
+
+            public int Level { get; private set; }
+
+            public DepthResult(string path,int l)
+            {
+                RelPath = path;
+                Level = l;
+            }
+        
         }
 
 
