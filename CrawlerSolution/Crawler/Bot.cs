@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Net;
 
@@ -76,11 +77,7 @@ namespace Crawler
             return cr;
         }
 
-        public List<CrawlResult> CrawlSite(string url, int level)
-        {
-            return new List<CrawlResult>();
-
-        } 
+       
     }
     public class CrawlResult
     {
@@ -129,21 +126,56 @@ namespace Crawler
         
        
 
+
         public List<CrawlResult> CrawlSite(int level)
         {
-            //the meat of the crawler will be in here
+            string baseUrl = _website.url;
+            List<CrawlResult> returnList = new List<CrawlResult>();
+
+            CrawlResult result = _webinteractor.GetPage(baseUrl);
+            returnList.Add(result);
+
            
-            _basePath = CreateRootDirectory();
-            _baseurl = "http://" + _baseurl;
-            return _webinteractor.CrawlSite(_website.url, level);
+            string pattern = @"/\w+[\w/]*\.\w+";
+            List<String> relativeMatches = new List<string>();
+            foreach (String str in GetMatches(pattern,result.Html))
+            {
+                relativeMatches.Add(str);
+            }
 
-            //CrawlPage("");
-            
+            int i = 0;
+            while (i < relativeMatches.Count)
+            {
+                string match = relativeMatches[i];
+                CrawlResult newResult = _webinteractor.GetPage(baseUrl + match);
 
-            //return cr;
+                foreach (String str in GetMatches(pattern, newResult.Html))
+                {
+                    relativeMatches.Add(str);
+                }
+                returnList.Add(newResult);
+                i++;
+            }
+
+
+
+            return returnList;
+
+        } 
+
+        private List<String> GetMatches(string pattern, string toSearch)
+        {
+            List<String> returnList = new List<string>();
+            Regex rgx = new Regex(pattern,RegexOptions.IgnoreCase);
+            MatchCollection relativeMatches = rgx.Matches(toSearch);
+            foreach (Match m in relativeMatches)
+            {
+                returnList.Add(m.Value);
+            }
+
+            return returnList;
 
         }
-
 
 
         
