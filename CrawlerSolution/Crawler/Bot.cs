@@ -8,7 +8,12 @@ using System.Net;
 
 namespace Crawler
 {
-    public class FileSystemInteractor
+    public interface IFileSystemInteractor
+    {
+        void MakeDirectory(string path);
+    }
+
+    public class FileSystemInteractor : IFileSystemInteractor
     {
         public void MakeDirectory(string path)
         {
@@ -96,13 +101,13 @@ namespace Crawler
         private DatabaseAccessor _dba;
         private string _basePath;
         private WebInteractor _webinteractor;
-        private FileSystemInteractor _fsinteractor;
+        private IFileSystemInteractor _fsinteractor;
 
         public List<CrawlResult> ResultsList { get; set; } 
 
         
 
-        public Bot(Website website, Log l,DatabaseAccessor dba, WebInteractor wi, FileSystemInteractor fsi)
+        public Bot(Website website, Log l,DatabaseAccessor dba, WebInteractor wi, IFileSystemInteractor fsi)
         {
             _baseurl = website.url;
             _website = website;

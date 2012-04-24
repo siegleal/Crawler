@@ -31,19 +31,19 @@ namespace Crawler
         [Test]
         public void TestCreateDirectory()
         {
-            Website web = new Website("www.test.com","");
+            MockRepository mocks = new MockRepository();
+
+            Website web = new Website("www.test.com", "");
             Log l = MockRepository.GenerateStub<Log>("samplepath");
             WebInteractor wi = MockRepository.GenerateStub<WebInteractor>();
-            FileSystemInteractor fsi = MockRepository.GenerateStub<FileSystemInteractor>();
+            var fsi = mocks.StrictMock<IFileSystemInteractor>();
 
             Bot b = new Bot(web, l, null, wi, fsi);
 
-    
-            //fsi.AssertWasCalled(mock => mock.MakeDirectory("samplepath"));
-            Assert.IsTrue(true);
-
-
-
+            using (mocks.Record())
+            {
+                fsi.MakeDirectory("samplepath");
+            }
         }
 
         [Test]//Mikey
