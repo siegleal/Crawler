@@ -31,7 +31,7 @@ namespace Crawler
             //TESTING
             
             Bot b = new Bot(new Website("www.rose-hulman.edu",""), new Log("logtext.txt"), null, null, null);
-            b.CrawlSite();
+            b.CrawlSite(depth);
             
             //initialize the website
 
@@ -45,7 +45,15 @@ namespace Crawler
 
             //initalize the database accessor class
             log.writeDebug("Creating database object");
-            DatabaseAccessor dbAccess = null;//new DatabaseAccessor(log);
+            try
+            {
+                DatabaseAccessor dbAccess = null; //new DatabaseAccessor(log, ConfigReader.ReadDatabaseAccessorString());
+            }
+            catch(Exception e)
+            {
+                Console.Out.WriteLine("Error creating database connection: " + e.Message);
+                log.writeError("Error creating database connection: " + e.Message);
+            }
             //dbAccess.addWebsite(path, null, null, null);
             int crawlID = 0;// dbAccess.newCrawl(path, "example@gmail.com");
 
@@ -71,7 +79,15 @@ namespace Crawler
 
             //notify
             log.writeDebug("Preparing to send message");
-            //NotifyClient.sendMessage();
+            try
+            {
+                //NotifyClient.sendMessage(ConfigReader.ReadEmailAddress());
+            }
+            catch(Exception e)
+            {
+                Console.Out.WriteLine("Error in Notify client: " + e.Message);
+                log.writeError("Error in Notify client: " + e.Message);
+            }
             log.writeDebug("Done sending notification");
             
             log.writeDebug("Destroying log....program exiting");
