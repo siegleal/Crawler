@@ -7,9 +7,10 @@ namespace Crawler
 {
     public interface IWebInteractor
     {
-        List<CrawlResult> CrawlSite(string url, int level);
+//        List<CrawlResult> CrawlSite(string url, int level);
 
         CrawlResult GetPage(string url);
+
     }
 
 }

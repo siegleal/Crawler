@@ -12,45 +12,57 @@ namespace Crawler
     public interface IFileSystemInteractor
     {
         void MakeDirectory(string path);
+        void WriteStringToNewFile(string input, string filepath);
     }
 
     public class FileSystemInteractor : IFileSystemInteractor
     {
+        private string _basePath = "";
+
         public void MakeDirectory(string path)
         {
+            _basePath = path;
             Directory.CreateDirectory(path);
+        }
+
+        public void WriteStringToNewFile(string input,string filepath)
+        {
+           //create file structure
+            string directoryToCreate = filepath.Substring(0, filepath.LastIndexOf("/"));
+
+            if (!Directory.Exists(_basePath + directoryToCreate + "/"))
+                Directory.CreateDirectory(_basePath + directoryToCreate + "/");
+            StreamWriter fs = new StreamWriter(_basePath + "/" + filepath);
+            fs.Write(input);
+            fs.Close();
         }
     }
 
     public class WebInteractor : IWebInteractor
     {
-        private string _baseurl;
-        private string _basePath;
+        public string BaseUrl { get; set; }
+//        private string _basePath;
 
         public CrawlResult GetPage(string url)
         {
             CrawlResult cr = new CrawlResult();
-            string urlExtension = url.TrimStart(_baseurl.ToCharArray());
 
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(_baseurl);
+            int indexOfSlash = url.IndexOf('/');
+            string urlExtension = "";
+            if (indexOfSlash > -1)
+                urlExtension = url.Substring(indexOfSlash);
+
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://" + url);
             request.Method = "GET";
             request.AllowAutoRedirect = false;
 
             try
             {
-                //the index page
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 var reader = new StreamReader(response.GetResponseStream());
                 var html = reader.ReadToEnd();
 
-                WebClient wc = new WebClient();
-                if (urlExtension.Equals(""))
-                    wc.DownloadFile(_baseurl + urlExtension,_basePath + "\\index.html");
-                else
-                {
-                    wc.DownloadFile(_baseurl + urlExtension,_basePath + "\\" + urlExtension);
-                }
-
+                
                 cr.ReturnCode = (int) response.StatusCode;
                 cr.ReturnStatus = response.StatusDescription;
                 cr.Html = html;
@@ -58,10 +70,10 @@ namespace Crawler
 
 
                 //DEBUG INFO
-                Console.Out.WriteLine(@"HTTP Version: {0}", response.ProtocolVersion);
-                Console.Out.WriteLine(@"Status code: {0}", (int)response.StatusCode);
-                Console.Out.WriteLine(@"Status description: {0}", response.StatusDescription);
-                Console.Out.WriteLine(@"ResponseUri: {0}", response.ResponseUri);
+//                Console.Out.WriteLine(@"HTTP Version: {0}", response.ProtocolVersion);
+//                Console.Out.WriteLine(@"Status code: {0}", (int)response.StatusCode);
+//                Console.Out.WriteLine(@"Status description: {0}", response.StatusDescription);
+//                Console.Out.WriteLine(@"ResponseUri: {0}", response.ResponseUri);
 
                 //Console.Out.WriteLine(@"html: \n{0}", html);
             }
@@ -77,7 +89,7 @@ namespace Crawler
             return cr;
         }
 
-       
+        
     }
     public class CrawlResult
     {
@@ -96,7 +108,7 @@ namespace Crawler
         private Website _website;
         private Log _log;
         private DatabaseAccessor _dba;
-        private string _basePath;
+        public string BasePath;
         private IWebInteractor _webinteractor;
         private IFileSystemInteractor _fsinteractor;
         public List<CrawlResult> ResultsList { get; set; } 
@@ -118,7 +130,9 @@ namespace Crawler
 
         private string CreateRootDirectory()
         {
-            string dirPath = string.Format("{0}_{1}", _baseurl, DateTime.Now.ToString("hh-mm_MM-dd-yyyy"));
+            //string dirPath = string.Format("{0}_{1}", _baseurl, DateTime.Now.ToString("hh-mm_MM-dd-yyyy"));
+            //BasePath = dirPath;
+            string dirPath = _website.DirPath;
             _fsinteractor.MakeDirectory(dirPath);
             return dirPath;
         }
@@ -134,18 +148,26 @@ namespace Crawler
             List<string> alreadyParsed = new List<string>();
             alreadyParsed.Add("/");
 
+            CreateRootDirectory();
+
             CrawlResult result = _webinteractor.GetPage(baseUrl);
+            _fsinteractor.WriteStringToNewFile(result.Html,"/index.html");
             returnList.Add(result);
 
            
-            string pattern = @"/(\w+[\w/]*\.\w+)*";
+            //find patterns that match href="/xxxxxx.xxx"
+            String pattern = "href=\"/(\\w+[\\w/]*\\.\\w+)*\"";
             List<DepthResult> relativeMatches = new List<DepthResult>();
             foreach (String str in GetMatches(pattern,result.Html))
             {
-                if (!alreadyParsed.Contains(str))
+                //trim the string from href="/xxx.xxx" => /xxx.xxx
+                string trimmedString = str.Substring(str.IndexOf('/'));
+                trimmedString = trimmedString.Substring(0, trimmedString.Length - 1);
+
+                if (!alreadyParsed.Contains(trimmedString))
                 {
-                    relativeMatches.Add(new DepthResult(str.TrimEnd('/'), 1));
-                    alreadyParsed.Add(str);
+                    relativeMatches.Add(new DepthResult(trimmedString.TrimEnd('/'), 1));
+                    alreadyParsed.Add(trimmedString);
                 }
             }
 
@@ -154,15 +176,22 @@ namespace Crawler
             {
                 DepthResult match = relativeMatches[i];
                 CrawlResult newResult = _webinteractor.GetPage(baseUrl + match.RelPath);
+                _fsinteractor.WriteStringToNewFile(newResult.Html,match.RelPath);
 
+                //look for more pages to crawl
                 if (match.Level < level)
                 {
                     foreach (String str in GetMatches(pattern, newResult.Html))
                     {
-                        if (!alreadyParsed.Contains(str))
+
+                        //trim the string from href="/xxx.xxx\" => /xxx.xxx
+                        string trimmedString = str.Substring(str.IndexOf('/'));
+                        trimmedString = trimmedString.Substring(0, trimmedString.Length - 1);
+
+                        if (!alreadyParsed.Contains(trimmedString))
                         {
-                            relativeMatches.Add(new DepthResult(str.TrimEnd('/'), match.Level + 1));
-                            alreadyParsed.Add(str);
+                            relativeMatches.Add(new DepthResult(trimmedString.TrimEnd('/'), match.Level + 1));
+                            alreadyParsed.Add(trimmedString);
                         }
                     }
                 }

@@ -17,24 +17,21 @@ namespace Crawler
             Version ver = aName.Version;
             Console.Out.WriteLine("Application {0}, Version {1}", aName.Name, ver.ToString());
             
-            String outputPath = path.Substring(path.IndexOf('.') + 1,path.LastIndexOf('.') - path.IndexOf('.') -1) + "-" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "-" + DateTime.Now.Day.ToString().PadLeft(2, '0') +  "-" + DateTime.Now.Year.ToString() + "_" + DateTime.Now.Hour.ToString() + "-" + DateTime.Now.Minute.ToString() ;
+            //String outputPath = path.Substring(path.IndexOf('.') + 1,path.LastIndexOf('.') - path.IndexOf('.') -1) + "-" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "-" + DateTime.Now.Day.ToString().PadLeft(2, '0') +  "-" + DateTime.Now.Year.ToString() + "_" + DateTime.Now.Hour.ToString() + "-" + DateTime.Now.Minute.ToString() ;
+            string outputPath = string.Format("{0}_{1}", path, DateTime.Now.ToString("hh-mm_MM-dd-yyyy"));
+            
          
             String arguments = path + " -g -r" + depth.ToString() + " -O " + outputPath;
             //DEBUG - Console.WriteLine("Running httrack with arguments: " + arguments);
-            Process p = Process.Start(Directory.GetCurrentDirectory() + "/httrack/httrack.exe", arguments);
-            p.WaitForExit();
+            //Process p = Process.Start(Directory.GetCurrentDirectory() + "/httrack/httrack.exe", arguments);
+            //p.WaitForExit();
             //Directory.CreateDirectory(output);
 
             String foldername = outputPath;
             outputPath =  Directory.GetCurrentDirectory() + "\\"  +  outputPath;
+            Directory.CreateDirectory(outputPath);
 
-            //TESTING
-            
-            Bot b = new Bot(new Website("www.rose-hulman.edu",""), new Log("logtext.txt"), null, null, null);
-            b.CrawlSite();
-            
             //initialize the website
-
             Website site = new Website(path,outputPath);
 
             //initialize the log
@@ -48,6 +45,9 @@ namespace Crawler
             DatabaseAccessor dbAccess = null;//new DatabaseAccessor(log);
             //dbAccess.addWebsite(path, null, null, null);
             int crawlID = 0;// dbAccess.newCrawl(path, "example@gmail.com");
+
+            Bot b = new Bot(site, log, null, new WebInteractor(), new FileSystemInteractor());
+            b.CrawlSite(depth);
 
             //Parse website
             WebsiteParser siteparser = new WebsiteParser(site, dbAccess, crawlID, log);

@@ -8,13 +8,13 @@ namespace Crawler
     public class Website
     {
         public string url;
-        public string dirpath;
+        public string DirPath;
         private List<string> filesFound;
 
         public Website(string url, String dirpath)
         {
             this.url = url;
-            this.dirpath = dirpath;
+            this.DirPath = dirpath;
             this.filesFound = new List<String>();
         }
 

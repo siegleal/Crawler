@@ -143,6 +143,44 @@ namespace Crawler
 
         }
 
+[Test]
+        public void TestTwoLinks()
+        {
+            MockRepository mocks = new MockRepository();
+            var web = mocks.StrictMock<IWebInteractor>();
+            var mockFSI = MockRepository.GenerateStub<IFileSystemInteractor>();
+
+            CrawlResult testResult = new CrawlResult();
+            testResult.ReturnCode = 200;
+            testResult.ReturnStatus = "OK";
+            testResult.Html = "href=\"/csse.html\" nonsense href=\"/abbe.html\"";
+
+            var resultTwo = new CrawlResult();
+            resultTwo.ReturnCode = 200;
+            resultTwo.ReturnStatus = "OK";
+            resultTwo.Html = "href=\"/abbe.html\"";
+
+            var resultThree = new CrawlResult();
+            resultThree.ReturnCode = 200;
+            resultThree.ReturnStatus = "OK";
+            resultThree.Html = "";
+
+
+            Expect.On(web).Call(web.GetPage("www.test.com")).Return(testResult);
+            Expect.On(web).Call(web.GetPage("www.test.com/csse.html")).Return(resultTwo);
+            Expect.On(web).Call(web.GetPage("www.test.com/abbe.html")).Return(resultThree);
+
+            mocks.ReplayAll();
+
+            Bot b = new Bot(new Website("www.test.com","simplepath"),null,null,web,mockFSI);
+            List<CrawlResult> results = b.CrawlSite(2);
+
+            mocks.VerifyAll();
+
+            Assert.AreEqual(3,results.Count);
+
+
+        }
         [Test]
         public void TestChainTwoLinks()
         {
