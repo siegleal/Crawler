@@ -22,7 +22,6 @@ namespace Crawler
             
          
             String arguments = path + " -g -r" + depth.ToString() + " -O " + outputPath;
-            String arguments = path + " -g -r" + depth.ToString() + " -O " + outputPath;
             //DEBUG - Console.WriteLine("Running httrack with arguments: " + arguments);
             //Process p = Process.Start(Directory.GetCurrentDirectory() + "/httrack/httrack.exe", arguments);
             //p.WaitForExit();
@@ -43,9 +42,10 @@ namespace Crawler
 
             //initalize the database accessor class
             log.writeDebug("Creating database object");
+            DatabaseAccessor dbAccess = null;
             try
             {
-                DatabaseAccessor dbAccess = null; //new DatabaseAccessor(log, ConfigReader.ReadDatabaseAccessorString());
+                dbAccess = null; //new DatabaseAccessor(log, ConfigReader.ReadDatabaseAccessorString());
             }
             catch(Exception e)
             {
