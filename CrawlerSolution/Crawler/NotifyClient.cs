@@ -10,11 +10,11 @@ namespace Crawler
     class NotifyClient
     {
         
-        public static void sendMessage()
+        public static void sendMessage(string email)
         {
             MailMessage message = new MailMessage();
             message = new MailMessage();
-            message.To.Add("asiegle@gmail.com");
+            message.To.Add(email);
             message.Subject = "Notification of completed crawl";
             message.From = new MailAddress("donotreply@wddinc.com");
             SmtpClient smtp = new SmtpClient("smtp.gmail.com",587);

@@ -10,17 +10,16 @@ namespace Crawler
     public class DatabaseAccessor
     {
         /* And we have a default user!  WOO! */
-        static string connectionDetails = "Database=SecurityCrawlerDatabase;" +
-            "user id=SecurityCrawlerUser;" +
-            "password=lwqem3r3;" +
-            "server=whale.cs.rose-hulman.edu;" +
-            "connection timeout=30;";
-        static SqlConnection con = new SqlConnection(connectionDetails);
-        static Log databaseLogger;
+        private string connectionDetails;
+        private SqlConnection con;
+        private Log databaseLogger;
 
-        public DatabaseAccessor(Log logger)
+        public DatabaseAccessor(Log logger, string connectionString)
         {
+
             databaseLogger = logger;
+            connectionDetails = connectionString;
+            con = new SqlConnection(connectionDetails);
         }
 
         public void addVulnerability(int crawlID, string details)

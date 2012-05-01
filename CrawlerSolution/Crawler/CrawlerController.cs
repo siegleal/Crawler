@@ -22,6 +22,7 @@ namespace Crawler
             
          
             String arguments = path + " -g -r" + depth.ToString() + " -O " + outputPath;
+            String arguments = path + " -g -r" + depth.ToString() + " -O " + outputPath;
             //DEBUG - Console.WriteLine("Running httrack with arguments: " + arguments);
             //Process p = Process.Start(Directory.GetCurrentDirectory() + "/httrack/httrack.exe", arguments);
             //p.WaitForExit();
@@ -42,7 +43,15 @@ namespace Crawler
 
             //initalize the database accessor class
             log.writeDebug("Creating database object");
-            DatabaseAccessor dbAccess = null;//new DatabaseAccessor(log);
+            try
+            {
+                DatabaseAccessor dbAccess = null; //new DatabaseAccessor(log, ConfigReader.ReadDatabaseAccessorString());
+            }
+            catch(Exception e)
+            {
+                Console.Out.WriteLine("Error creating database connection: " + e.Message);
+                log.writeError("Error creating database connection: " + e.Message);
+            }
             //dbAccess.addWebsite(path, null, null, null);
             int crawlID = 0;// dbAccess.newCrawl(path, "example@gmail.com");
 
@@ -71,7 +80,15 @@ namespace Crawler
 
             //notify
             log.writeDebug("Preparing to send message");
-            //NotifyClient.sendMessage();
+            try
+            {
+                //NotifyClient.sendMessage(ConfigReader.ReadEmailAddress());
+            }
+            catch(Exception e)
+            {
+                Console.Out.WriteLine("Error in Notify client: " + e.Message);
+                log.writeError("Error in Notify client: " + e.Message);
+            }
             log.writeDebug("Done sending notification");
             
             log.writeDebug("Destroying log....program exiting");
