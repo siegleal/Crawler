@@ -24,11 +24,21 @@ namespace Crawler
 
         public void loadDefinitionsFromFile()
         {
-            System.IO.StreamReader file = new System.IO.StreamReader("Vuln.txt");
+            var file = new System.IO.StreamReader("Vuln.txt");
             String line;
-            int i = 0;
             while ((line = file.ReadLine()) != null)
             {
+                string[] splitLine = line.Split(new char[] {'\t'});
+                splitLine = splitLine.Where(x => x != "").ToArray();
+                if (splitLine.Length >= 2)
+                {
+                    searchStringList.Add(splitLine[0]);
+                    descriptionList.Add(splitLine[1]);
+                }
+                else
+                {
+                    log.writeError("Unknown vulnerability definition: " + line);
+                }
                 //int s = line.IndexOf("\t");
                 //searchStringList.Add(line.Substring(0, s));
                 //descriptionList.Add(line.Substring(s+1, line.Length-s-1));
