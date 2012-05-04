@@ -338,6 +338,72 @@ namespace Crawler
 
 
         }
+
+        [Test]
+        public void TestHttpInternalWithWwwLink()
+        {
+            MockRepository mocks = new MockRepository();
+            var web = mocks.StrictMock<IWebInteractor>();
+            var site = new Website("www.test.com", "whatever");
+            var mockFSI = MockRepository.GenerateStub<IFileSystemInteractor>();
+
+            CrawlResult testResult = new CrawlResult();
+            testResult.ReturnCode = 200;
+            testResult.ReturnStatus = "OK";
+            testResult.Html = "href=\"http://www.test.com/csse.html\"";
+
+            var resultTwo = new CrawlResult();
+            resultTwo.ReturnCode = 200;
+            resultTwo.ReturnStatus = "OK";
+            resultTwo.Html = "";
+
+            Expect.On(web).Call(web.GetPage("www.test.com")).Return(testResult);
+            Expect.On(web).Call(web.GetPage("www.test.com/csse.html")).Return(resultTwo);
+
+            mocks.ReplayAll();
+
+            Bot b = new Bot(site,null,null,web,mockFSI);
+            List<CrawlResult> results = b.CrawlSite(2);
+
+            mocks.VerifyAll();
+
+            Assert.AreEqual(2,results.Count);
+
+
+        } 
+        
+        [Test]
+        public void TestHttpInternalWithoutWwwLink()
+        {
+            MockRepository mocks = new MockRepository();
+            var web = mocks.StrictMock<IWebInteractor>();
+            var site = new Website("www.test.com", "whatever");
+            var mockFSI = MockRepository.GenerateStub<IFileSystemInteractor>();
+
+            CrawlResult testResult = new CrawlResult();
+            testResult.ReturnCode = 200;
+            testResult.ReturnStatus = "OK";
+            testResult.Html = "href=\"http://test.com/csse.html\"";
+
+            var resultTwo = new CrawlResult();
+            resultTwo.ReturnCode = 200;
+            resultTwo.ReturnStatus = "OK";
+            resultTwo.Html = "";
+
+            Expect.On(web).Call(web.GetPage("www.test.com")).Return(testResult);
+            Expect.On(web).Call(web.GetPage("www.test.com/csse.html")).Return(resultTwo);
+
+            mocks.ReplayAll();
+
+            Bot b = new Bot(site,null,null,web,mockFSI);
+            List<CrawlResult> results = b.CrawlSite(2);
+
+            mocks.VerifyAll();
+
+            Assert.AreEqual(2,results.Count);
+
+
+        }
 //        [Test]
 //        public void TestDirectory()
 //        {

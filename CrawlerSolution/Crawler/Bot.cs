@@ -147,25 +147,44 @@ namespace Crawler
             _fsinteractor.WriteStringToNewFile(result.Html,"/index.html");
             returnList.Add(result);
 
-           
-            //find patterns that match href="/xxxxxx.xxx"
-            //String pattern = "href=\"/(\\w+[\\w/]*\\.\\w+)*\"";
-            String pattern = "href=\"[/\\w.]*\""; //find all href's
+            String pattern = "href=\"(http://)*[/\\w.\\\\]*\""; //find all href's
             var relativeMatches = new List<DepthResult>();
             foreach (String str in GetMatches(pattern,result.Html))
             {
                 //find internal links
                 //remove href
-                string trimmedString = str.Replace("href=\"", "");
-                trimmedString = trimmedString.TrimEnd("\"".ToCharArray());
+                string trimmedString = RemoveStrings(str, new string[] {"href=\"", "\""});
+                //string trimmedString = str.Replace("href=\"", "");
+                //trimmedString = trimmedString.TrimEnd("\"".ToCharArray());
                 
                 //if it starts with http:// it might be an external link, it might not too
-                bool externalFlag = trimmedString.IndexOf("http://", System.StringComparison.Ordinal) > -1;
+                //bool externalFlag = trimmedString.IndexOf("http://", System.StringComparison.Ordinal) > -1;
+
+                bool externalFlag = false;
+
+                if (trimmedString.IndexOf(@"http://") > -1)
+                {
+                    trimmedString = RemoveStrings(trimmedString, new string[] {"http://"});
+                    if (trimmedString.IndexOf(_baseurl) == -1) //baseUrl not found in link address
+                    {
+                        if ((@"www." + trimmedString).IndexOf(_baseurl) == -1) //baseUrl not found if "www." added to the front of the string
+                        {
+                            externalFlag = true;
+                        }
+                        else
+                        {
+                            trimmedString = "www." + trimmedString;
+                            trimmedString = RemoveStrings(trimmedString, new string[] {_baseurl});
+                        }
+                    }
+                    else
+                    {
+                        trimmedString = RemoveStrings(trimmedString, new string[]{_baseurl});
+                    }
+                }
 
 
                 //trim the string from href="/xxx.xxx" => /xxx.xxx
-//                string trimmedString = str.Substring(str.IndexOf('/'));
-//                trimmedString = trimmedString.Substring(0, trimmedString.Length - 1);
 
                 if (!alreadyParsed.Contains(trimmedString) && !externalFlag)
                 {
