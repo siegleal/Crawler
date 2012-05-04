@@ -37,7 +37,7 @@ namespace Crawler
                 }
                 else
                 {
-                    log.writeError("Unknown vulnerability definition: " + line);
+                    log.writeError("Cannot parse vulnerability definition: " + line);
                 }
                 //int s = line.IndexOf("\t");
                 //searchStringList.Add(line.Substring(0, s));
