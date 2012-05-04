@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="Bot.cs" />
     <Compile Include="BotTest.cs" />
+    <Compile Include="ConfigReader.cs" />
+    <Compile Include="ConfigReaderTest.cs" />
     <Compile Include="HtmlHeaderPlugin.cs" />
     <Compile Include="CrawlerController.cs" />
     <Compile Include="CrawlerPlugin.cs" />

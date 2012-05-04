@@ -45,15 +45,24 @@ namespace Crawler
             DatabaseAccessor dbAccess = null;
             try
             {
-                dbAccess = null; //new DatabaseAccessor(log, ConfigReader.ReadDatabaseAccessorString());
+                dbAccess = new DatabaseAccessor(log, ConfigReader.ReadDatabaseAccessorString());
             }
             catch(Exception e)
             {
                 Console.Out.WriteLine("Error creating database connection: " + e.Message);
+                Console.Out.WriteLine("Reverting to default CrawlID");
                 log.writeError("Error creating database connection: " + e.Message);
+                log.writeError("Reverting to default CrawlID");
             }
-            //dbAccess.addWebsite(path, null, null, null);
-            int crawlID = 0;// dbAccess.newCrawl(path, "example@gmail.com");
+            if (dbAccess != null) dbAccess.addWebsite(path, null, null, null);
+
+            int crawlID;
+            if(dbAccess != null)
+                crawlID = dbAccess.newCrawl(path, "example@gmail.com");
+            else
+            {
+                crawlID = 0;
+            }
 
             Bot b = new Bot(site, log, null, new WebInteractor(), new FileSystemInteractor());
             b.CrawlSite(depth);
