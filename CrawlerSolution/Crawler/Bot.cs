@@ -66,16 +66,6 @@ namespace Crawler
                 cr.ReturnCode = (int) response.StatusCode;
                 cr.ReturnStatus = response.StatusDescription;
                 cr.Html = html;
-
-
-
-                //DEBUG INFO
-//                Console.Out.WriteLine(@"HTTP Version: {0}", response.ProtocolVersion);
-//                Console.Out.WriteLine(@"Status code: {0}", (int)response.StatusCode);
-//                Console.Out.WriteLine(@"Status description: {0}", response.StatusDescription);
-//                Console.Out.WriteLine(@"ResponseUri: {0}", response.ResponseUri);
-
-                //Console.Out.WriteLine(@"html: \n{0}", html);
             }
             catch (WebException we)
             {
@@ -138,7 +128,10 @@ namespace Crawler
         }
 
         
-       
+        public string RemoveStrings(string input,string[] toRemove)
+        {
+            return toRemove.Aggregate(input, (current, s) => current.Replace(s, ""));
+        }
 
 
         public List<CrawlResult> CrawlSite(int level)
@@ -156,15 +149,25 @@ namespace Crawler
 
            
             //find patterns that match href="/xxxxxx.xxx"
-            String pattern = "href=\"/(\\w+[\\w/]*\\.\\w+)*\"";
-            List<DepthResult> relativeMatches = new List<DepthResult>();
+            //String pattern = "href=\"/(\\w+[\\w/]*\\.\\w+)*\"";
+            String pattern = "href=\"[/\\w.]*\""; //find all href's
+            var relativeMatches = new List<DepthResult>();
             foreach (String str in GetMatches(pattern,result.Html))
             {
-                //trim the string from href="/xxx.xxx" => /xxx.xxx
-                string trimmedString = str.Substring(str.IndexOf('/'));
-                trimmedString = trimmedString.Substring(0, trimmedString.Length - 1);
+                //find internal links
+                //remove href
+                string trimmedString = str.Replace("href=\"", "");
+                trimmedString = trimmedString.TrimEnd("\"".ToCharArray());
+                
+                //if it starts with http:// it might be an external link, it might not too
+                bool externalFlag = trimmedString.IndexOf("http://", System.StringComparison.Ordinal) > -1;
 
-                if (!alreadyParsed.Contains(trimmedString))
+
+                //trim the string from href="/xxx.xxx" => /xxx.xxx
+//                string trimmedString = str.Substring(str.IndexOf('/'));
+//                trimmedString = trimmedString.Substring(0, trimmedString.Length - 1);
+
+                if (!alreadyParsed.Contains(trimmedString) && !externalFlag)
                 {
                     relativeMatches.Add(new DepthResult(trimmedString.TrimEnd('/'), 1));
                     alreadyParsed.Add(trimmedString);
