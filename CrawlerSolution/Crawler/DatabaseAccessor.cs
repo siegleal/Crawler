@@ -227,47 +227,6 @@ namespace Crawler
             return websiteID;
         }
 
-        /* Don't use this yet:  Apparently output from a database comes as... Datarows?  Which
-         * are just... generic, uncastable objects...?
-                                     ┻━┻ ︵ヽ(`Д´)ﾉ︵﻿ ┻━┻                  */
-        public List<String> getWebsiteVulnerabilites(string url)
-        {
-            List<String> result = new List<String>();
-            /* TODO:  Write the command.  Should return single column table of vulnerabilities */
-            string command = "";
-            SqlDataAdapter adapt = new SqlDataAdapter(command, con);
-            DataTable data = new DataTable();
-
-            try
-            {
-                con.Open();
-
-                int records = adapt.Fill(data);
-
-                foreach (DataRow row in data.Rows)
-                {
-                    result.Add(row[0].ToString());
-                }
-
-            }
-            catch (SqlException e)
-            {
-                string msg = "";
-                for (int i = 0; i < e.Errors.Count; i++)
-                {
-                    msg += "Error #" + i + " Message: " + e.Errors[i].Message + "\n";
-                }
-                databaseLogger.writeError(msg);
-            }
-            finally
-            {
-                if (con.State != ConnectionState.Closed)
-                {
-                    con.Close();
-                }
-            }
-            return result;
-        }
-    }
+   }
 
 }

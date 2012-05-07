@@ -11,10 +11,10 @@ namespace Crawler
 
     public class ConfigReader
     {
-        private const string Filename = "config.ini";
+        const string Filename = "config.ini";
 
 
-        static string ReadDatabaseAccessorString()
+        public static string ReadDatabaseAccessorString()
         {
             var parseFor = new Regex(@"database =(.+)");
 
@@ -28,9 +28,9 @@ namespace Crawler
             return result;
         }
 
-        static string ReadEmailAddress()
+        public static string ReadEmailAddress()
         {
-            var parseFor = new Regex(@"email= (.+)");
+            var parseFor = new Regex(@"email =(.+)");
 
             string result = MatchRegex(parseFor);
             
