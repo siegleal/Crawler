@@ -57,8 +57,10 @@ namespace Crawler
             if (dbAccess != null) dbAccess.addWebsite(path, null, null, null);
 
             int crawlID;
-            if(dbAccess != null)
+            if (dbAccess != null)
+            {
                 crawlID = dbAccess.newCrawl(path, "example@gmail.com");
+            }
             else
             {
                 crawlID = 0;
@@ -69,23 +71,26 @@ namespace Crawler
 
             //Parse website
             WebsiteParser siteparser = new WebsiteParser(site, dbAccess, crawlID, log);
-            siteparser.analyzeSite();
+            List<String> result = siteparser.analyzeSite();
             
             //Try to analyse an SSL certificate, if there is one
             log.writeDebug("Creating SSL object");
             CrawlerPlugin ssl = new SSLConfirmationPlugin(site, dbAccess, crawlID, log);
-            ssl.analyzeSite();
+            result.AddRange(ssl.analyzeSite());
 
             //Get headers
-            CrawlerPlugin headers = new HtmlHeaderPlugin(site, dbAccess, crawlID, log);
-            headers.analyzeSite();
+            CrawlerPlugin headers = new HttpHeaderPlugin(site, dbAccess, crawlID, log);
+            result.AddRange(headers.analyzeSite());
             
             
             //HTML Parser
             log.writeDebug("Creating HTML parsing object");
             HTMLParsingModule HTMLParser = new HTMLParsingModule(site, dbAccess, crawlID, log);
-            HTMLParser.analyzeSite();
+            result.AddRange(HTMLParser.analyzeSite());
             log.writeDebug("Done parsing HTML");
+
+            //Write to database
+            dbAccess.AddVulnerabilities(crawlID, result);
 
             //notify
             log.writeDebug("Preparing to send message");
