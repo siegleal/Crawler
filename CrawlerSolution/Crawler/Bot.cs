@@ -196,8 +196,15 @@ namespace Crawler
             {
                 DepthResult match = relativeMatches[i];
                 CrawlResult newResult = _webinteractor.GetPage(baseUrl + match.RelPath);
-                if (match.RelPath[match.RelPath.Length - 1] == '/')
-                    match.RelPath += "index.html";
+                if (match.RelPath.IndexOf(".") == -1)
+                {
+                    if (match.RelPath[match.RelPath.Length - 1] == '/')
+                        match.RelPath += "index.html";
+                    else
+                    {
+                        match.RelPath += "index.html";
+                    }
+                }
                 _fsinteractor.WriteStringToNewFile(newResult.Html,match.RelPath);
 
                 //look for more pages to crawl
