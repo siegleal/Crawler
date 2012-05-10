@@ -39,6 +39,29 @@ namespace Crawler
             Assert.IsTrue(File.Exists(Directory.GetCurrentDirectory() + "\\" + _outputPath + "\\log.txt"));
         }
 
+        //IMPORTANT: This test assumes that there are scripts on Google's homepage, which is most likely to be true.
+        [Test]
+        public void TestVulnerabilityInLog()
+        {
+            string logPath = Directory.GetCurrentDirectory() + "\\" + _outputPath + "\\log.txt";
+            using(var sr = new StreamReader(logPath))
+            {
+                string contents = sr.ReadToEnd();
+                Assert.IsTrue(contents.Contains("VULN: 'Script' found in file"));
+            }
+        }
+
+        [Test]
+        public void TestVersionInLog()
+        {
+            string logPath = Directory.GetCurrentDirectory() + "\\" + _outputPath + "\\log.txt";
+            using (var sr = new StreamReader(logPath))
+            {
+                string contents = sr.ReadToEnd();
+                Assert.IsTrue(contents.Contains("Running version:"));
+            }
+        }
+
         [TestFixtureTearDown]
         public static void CleanUp()
         {
