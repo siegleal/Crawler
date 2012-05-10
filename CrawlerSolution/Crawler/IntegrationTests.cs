@@ -62,6 +62,17 @@ namespace Crawler
             }
         }
 
+        [Test]
+        public void TestFilesFoundInLog()
+        {
+            string logPath = Directory.GetCurrentDirectory() + "\\" + _outputPath + "\\log.txt";
+            using (var sr = new StreamReader(logPath))
+            {
+                string contents = sr.ReadToEnd();
+                Assert.IsTrue(contents.Contains("Found file index.html"));
+            }
+        }
+
         [TestFixtureTearDown]
         public static void CleanUp()
         {
