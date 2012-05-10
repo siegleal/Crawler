@@ -18,9 +18,9 @@ namespace Crawler
             message.Subject = "Notification of completed crawl";
             message.From = new MailAddress("donotreply@wddinc.com");
             SmtpClient smtp = new SmtpClient("smtp.gmail.com",587);
-            smtp.Credentials = new NetworkCredential("fake.andrew.lewis@gmail.com","passwordpass");
+            smtp.Credentials = new NetworkCredential(ConfigReader.ReadUserNameString(), ConfigReader.ReadPasswordString());//"fake.andrew.lewis@gmail.com","passwordpass");
             smtp.EnableSsl = true;
-            message.Body = "This is a test";
+            message.Body = "A crawl has completed --Crawler";
             if (smtp.Equals(null))
             {
                 Console.Out.WriteLine("Something is wrong with the smtp");

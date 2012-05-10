@@ -28,6 +28,36 @@ namespace Crawler
             return result;
         }
 
+        public static string ReadUserNameString()
+        {
+            var parseFor = new Regex(@"uname =(.+)");
+
+            string result = MatchRegex(parseFor);
+
+            if(result == null)
+            {
+                throw new Exception("Cannot find username string");
+            }
+
+            return result;
+        }
+
+        public static string ReadPasswordString()
+        {
+            var parseFor = new Regex(@"pword =(.+)");
+
+            string result = MatchRegex(parseFor);
+
+            if(result == null)
+            {
+                throw new Exception("Cannot find password string");
+            }
+
+            return result;
+        }
+
+
+
         public static string ReadEmailAddress()
         {
             var parseFor = new Regex(@"email =(.+)");
