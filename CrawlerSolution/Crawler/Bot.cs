@@ -13,11 +13,17 @@ namespace Crawler
     {
         void MakeDirectory(string path);
         void WriteStringToNewFile(string input, string filepath);
+        string MakeFilesystemGraph();
     }
 
     public class FileSystemInteractor : IFileSystemInteractor
     {
         private string _basePath = "";
+
+        public string BasePath()
+        {
+            return _basePath;
+        }
 
         public void MakeDirectory(string path)
         {
@@ -36,10 +42,41 @@ namespace Crawler
             fs.Write(input);
             fs.Close();
         }
+
+        public string MakeFilesystemGraph()
+        {
+            var sb = new StringBuilder();
+            
+            FilesystemPathHelper(_basePath,sb,"");
+
+            return sb.ToString();
+        }
+
+        private void FilesystemPathHelper(string path, StringBuilder sb, string prefix)
+        {
+            const string INDENT = "-----";
+            //list all of the files
+            foreach (var file in Directory.GetFiles(path))
+            {
+                sb.Append(prefix + file.Replace(path,"") + "\r\n");
+            }
+
+            //recursively look into directories
+            foreach (var directory in Directory.GetDirectories(path))
+            {
+                sb.Append(directory.Replace(path, "") + "\r\n");
+                FilesystemPathHelper(directory, sb, prefix + INDENT);
+            }
+        }
     }
 
     public class WebInteractor : IWebInteractor
     {
+        private Log _log;
+        public WebInteractor(Log l):base()
+        {
+            _log = l;
+        }
         public string BaseUrl { get; set; }
 //        private string _basePath;
 
@@ -72,7 +109,7 @@ namespace Crawler
                 var code = ((HttpWebResponse)we.Response).StatusCode;
                 cr.ReturnCode = (int) code;
                 cr.ReturnStatus = code.ToString();
-                Console.Out.WriteLine(@"Error: {0} ({1}) {2}",((HttpWebResponse)we.Response).ResponseUri, (int)code, code);
+                _log.writeError(String.Format(@"Error: {0} ({1}) {2}",((HttpWebResponse)we.Response).ResponseUri, (int)code, code));
 
             }
 
@@ -151,46 +188,7 @@ namespace Crawler
             var relativeMatches = new List<DepthResult>();
             foreach (String str in GetMatches(pattern,result.Html))
             {
-                //find internal links
-                //remove href
-                string trimmedString = RemoveStrings(str, new string[] {"href=\"", "\""});
-                //string trimmedString = str.Replace("href=\"", "");
-                //trimmedString = trimmedString.TrimEnd("\"".ToCharArray());
-                
-                //if it starts with http:// it might be an external link, it might not too
-                //bool externalFlag = trimmedString.IndexOf("http://", System.StringComparison.Ordinal) > -1;
-
-                bool externalFlag = false;
-
-                if (trimmedString.IndexOf(@"http://") > -1)
-                {
-                    trimmedString = RemoveStrings(trimmedString, new string[] {"http://"});
-                    if (trimmedString.IndexOf(_baseurl) == -1) //baseUrl not found in link address
-                    {
-                        if ((@"www." + trimmedString).IndexOf(_baseurl) == -1) //baseUrl not found if "www." added to the front of the string
-                        {
-                            externalFlag = true;
-                        }
-                        else
-                        {
-                            trimmedString = "www." + trimmedString;
-                            trimmedString = RemoveStrings(trimmedString, new string[] {_baseurl});
-                        }
-                    }
-                    else
-                    {
-                        trimmedString = RemoveStrings(trimmedString, new string[]{_baseurl});
-                    }
-                }
-
-
-                //trim the string from href="/xxx.xxx" => /xxx.xxx
-
-                if (!alreadyParsed.Contains(trimmedString) && !externalFlag)
-                {
-                    relativeMatches.Add(new DepthResult(trimmedString.TrimEnd('/'), 1));
-                    alreadyParsed.Add(trimmedString);
-                }
+                FindMoreMatches(str,alreadyParsed,relativeMatches,0);
             }
 
             int i = 0;
@@ -198,6 +196,8 @@ namespace Crawler
             {
                 DepthResult match = relativeMatches[i];
                 CrawlResult newResult = _webinteractor.GetPage(baseUrl + match.RelPath);
+                if (match.RelPath[match.RelPath.Length - 1] == '/')
+                    match.RelPath += "index.html";
                 _fsinteractor.WriteStringToNewFile(newResult.Html,match.RelPath);
 
                 //look for more pages to crawl
@@ -205,16 +205,7 @@ namespace Crawler
                 {
                     foreach (String str in GetMatches(pattern, newResult.Html))
                     {
-
-                        //trim the string from href="/xxx.xxx\" => /xxx.xxx
-                        string trimmedString = str.Substring(str.IndexOf('/'));
-                        trimmedString = trimmedString.Substring(0, trimmedString.Length - 1);
-
-                        if (!alreadyParsed.Contains(trimmedString))
-                        {
-                            relativeMatches.Add(new DepthResult(trimmedString.TrimEnd('/'), match.Level + 1));
-                            alreadyParsed.Add(trimmedString);
-                        }
+                        FindMoreMatches(str,alreadyParsed,relativeMatches, match.Level);
                     }
                 }
                 returnList.Add(newResult);
@@ -223,12 +214,53 @@ namespace Crawler
 
             return returnList;
 
-        } 
+        }
+
+        private void FindMoreMatches(string str,List<string> alreadyParsed,List<DepthResult> relativeMatches, int level  )
+        {
+
+            //find internal links
+            //remove href
+            string trimmedString = RemoveStrings(str, new string[] { "href=\"", "\"" });
+
+
+            bool externalFlag = false;
+
+            if (trimmedString.IndexOf(@"http://") > -1)
+            {
+                trimmedString = RemoveStrings(trimmedString, new string[] { "http://" });
+                if (trimmedString.IndexOf(_baseurl) == -1) //baseUrl not found in link address
+                {
+                    if ((@"www." + trimmedString).IndexOf(_baseurl) == -1) //baseUrl not found if "www." added to the front of the string
+                    {
+                        externalFlag = true;
+                    }
+                    else
+                    {
+                        trimmedString = "www." + trimmedString;
+                        trimmedString = RemoveStrings(trimmedString, new string[] { _baseurl });
+                    }
+                }
+                else
+                {
+                    trimmedString = RemoveStrings(trimmedString, new string[] { _baseurl });
+                }
+            }
+
+
+            //trim the string from href="/xxx.xxx" => /xxx.xxx
+
+            if (!alreadyParsed.Contains(trimmedString) && !externalFlag)
+            {
+                relativeMatches.Add(new DepthResult(trimmedString, level+ 1));
+                alreadyParsed.Add(trimmedString);
+            }
+        }
 
         private List<String> GetMatches(string pattern, string toSearch)
         {
             List<String> returnList = new List<string>();
-            Regex rgx = new Regex(pattern,RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(pattern, RegexOptions.IgnoreCase);
             MatchCollection relativeMatches = rgx.Matches(toSearch);
             foreach (Match m in relativeMatches)
             {
@@ -244,15 +276,15 @@ namespace Crawler
 
             public int Level { get; private set; }
 
-            public DepthResult(string path,int l)
+            public DepthResult(string path, int l)
             {
                 RelPath = path;
                 Level = l;
             }
-        
+
         }
 
 
-        
+
     }
 }

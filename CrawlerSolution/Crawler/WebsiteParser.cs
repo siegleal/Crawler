@@ -9,30 +9,25 @@ namespace Crawler
     //This class parses all of the files found and logs all of them
     class WebsiteParser : CrawlerPlugin
     {
-        public WebsiteParser(Website website, DatabaseAccessor db, int crawlID, Log l)
+        private FileSystemInteractor fsInteractor;
+
+        public WebsiteParser(Website website, DatabaseAccessor db, int crawlID, Log l, FileSystemInteractor fs)
             : base(website, db, crawlID, l)
         {
-            
+            fsInteractor = fs;
         }
 
        public override List<String> analyzeSite()
-        {
+       {
+           int count = 0;
             log.writeInfo("Beginning website directory parsing");
-            var files = from file in Directory.EnumerateFiles(website.DirPath) select file;
-            log.writeInfo("DONE");
             log.writeDebug("Beginning to list files");
 
-            foreach (var file in files)
-            {
-                String filePath = file.ToString().Substring(file.LastIndexOf("\\") + 1);
-                if (!filePath.Equals("log.txt"))
-                {
-                    log.writeInfo("Found file " + filePath);
-                    website.addFile(file.ToString());
-                }
-            }
+           var file = new StreamWriter(fsInteractor.BasePath() + @"\\log_filegraph.txt");
+            file.WriteLine(fsInteractor.MakeFilesystemGraph());
+           file.Close();
+
             log.writeDebug("DONE");
-            log.writeInfo((files.Count<string>() - 1).ToString() + " files found");
             log.writeDebug("Done finding files");
             return new List<String>();
         }

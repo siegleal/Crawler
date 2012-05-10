@@ -64,11 +64,12 @@ namespace Crawler
                 crawlID = 0;
             }
 
-            Bot b = new Bot(site, log, null, new WebInteractor(), new FileSystemInteractor());
+            var fsi = new FileSystemInteractor();
+            Bot b = new Bot(site, log, null, new WebInteractor(log), fsi);
             b.CrawlSite(depth);
 
             //Parse website
-            WebsiteParser siteparser = new WebsiteParser(site, dbAccess, crawlID, log);
+            WebsiteParser siteparser = new WebsiteParser(site, dbAccess, crawlID, log,fsi);
             siteparser.analyzeSite();
             
             //Try to analyse an SSL certificate, if there is one
