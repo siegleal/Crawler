@@ -10,43 +10,39 @@ namespace Crawler
     [TestFixture]
     internal class IntegrationTests
     {
-        [SetUp]
-        public void Init()
-        {
-            //            _path = "www.google.com_" + DateTime.Now.ToString("hh-mm_MM-dd-yyyy");
-            //            _website = new Website("google.com", _path);
-            //            IWebInteractor webInteractor = new WebInteractor();
-            //            IFileSystemInteractor fileInteractor = new FileSystemInteractor();
-            //            Log log = new Log(_path+"\\log.txt");
-            //            _bot = new Bot(_website, log, null, webInteractor, fileInteractor);
+        private List<string> _dirsCreated;
+        private const string Path = "www.google.com";
+        private static string _outputPath = string.Format("{0}_{1}", Path, DateTime.Now.ToString("hh-mm_MM-dd-yyyy"));
+        private static CrawlerController _crawlerControler;
 
+        [TestFixtureSetUp]
+        public static void Init()
+        {
+            _crawlerControler = new CrawlerController(Path, 1);
         }
 
         [Test]
         public void TestDirectory()
         {
-            string path = "http://www.google.com";
-            string outputPath = string.Format("{0}_{1}", path, DateTime.Now.ToString("hh-mm_MM-dd-yyyy"));
-            var cc = new CrawlerController(path, 0);
-            Assert.IsTrue(Directory.Exists(Directory.GetCurrentDirectory() + "\\" + outputPath));
+            Assert.IsTrue(Directory.Exists(Directory.GetCurrentDirectory() + "\\" + _outputPath));
         }
 
         [Test]
         public void TestDownloadFile()
         {
-            string path = "http://www.google.com";
-            string outputPath = string.Format("{0}_{1}", path, DateTime.Now.ToString("hh-mm_MM-dd-yyyy"));
-            var cc = new CrawlerController(path, 0);
-            Assert.IsTrue(File.Exists(Directory.GetCurrentDirectory() + "\\" + outputPath + "index.html"));
+            Assert.IsTrue(File.Exists(Directory.GetCurrentDirectory() + "\\" + _outputPath + "\\index.html"));
         }
 
         [Test]
         public void TestLogTxtExists()
         {
-            string path = "http://www.google.com";
-            string outputPath = string.Format("{0}_{1}", path, DateTime.Now.ToString("hh-mm_MM-dd-yyyy"));
-            var cc = new CrawlerController(path, 0);
-            Assert.IsTrue(File.Exists(Directory.GetCurrentDirectory() + "\\" + outputPath + "log.txt"));
+            Assert.IsTrue(File.Exists(Directory.GetCurrentDirectory() + "\\" + _outputPath + "\\log.txt"));
+        }
+
+        [TestFixtureTearDown]
+        public static void CleanUp()
+        {
+            Directory.Delete(Directory.GetCurrentDirectory() + "\\" + _outputPath, true);
         }
     }
 
