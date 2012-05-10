@@ -22,34 +22,56 @@ namespace Crawler
             con = new SqlConnection(connectionDetails);
         }
 
-        public void addVulnerability(int crawlID, string details)
+        public void AddVulnerabilities(int crawlID, List<String> details)
         {
-            string commandString = "dbo.addVulnerability";
+            for(int i = 0; i < details.Count; i++)
+            {
+                try
+                {
+                    addVulnerability(crawlID, details[i]);
+                }
+                catch (SqlException e)
+                {
+
+                    string msg = "";
+                    for (int j = 0; j < e.Errors.Count; j++)
+                    {
+                         msg += "Error #" + j + " Message: " + e.Errors[j].Message + "\n";
+                    }
+                    databaseLogger.writeError(msg);
+                }
+                catch (Exception e)
+                {
+                    databaseLogger.writeError(e.Message);
+                }
+            }
+        }
+
+        private void addVulnerability(int crawlID, string details)
+        {
+            string commandString = "addVulnerability";
 
             SqlCommand command = new SqlCommand(commandString, con);
+            command.CommandType = CommandType.StoredProcedure;
 
-            SqlParameter idParam = new SqlParameter("@crawlID", SqlDbType.Int, 4);
+            SqlParameter idParam = new SqlParameter();
+            idParam.ParameterName ="@crawlID";
+            idParam.SqlDbType = SqlDbType.Int;
+            idParam.Size = 4;
             idParam.Value = crawlID;
+            idParam.Direction = ParameterDirection.Input;
             command.Parameters.Add(idParam);
+
 
             SqlParameter detailParam = new SqlParameter("@details", SqlDbType.VarChar, 600);
             detailParam.Value = details;
-            command.Parameters.Add(details);
+            detailParam.Direction = ParameterDirection.Input;
+            command.Parameters.Add(detailParam);
 
             try
             {
                 con.Open();
                 command.ExecuteNonQuery();
-                crawlID = (int)command.Parameters["@newID"].Value;
-            }
-            catch (SqlException e)
-            {
-                string msg = "";
-                for (int i = 0; i < e.Errors.Count; i++)
-                {
-                    msg += "Error #" + i + " Message: " + e.Errors[i].Message + "\n";
-                }
-                databaseLogger.writeError(msg);
             }
             finally
             {
@@ -120,13 +142,6 @@ namespace Crawler
 
         /* Add a website.  Return its database ID.
          * Returns -1 if the command failed */
-        /* Works now.  Solution was using DBNull.Value rather than null (wat?).  Saving the comment below for posterity */
-        /* Apparently insertNewWebsite doesn't exist if I add the params on the end of the commandString,
-         * but it's missing params if I don't add them, and just typing in the query gives missing @language.
-         *              
-         *                                  (╯°□°）╯︵ ┻━┻                        
-         *              
-         * Can someone who is not me (Mikey) look at this? */
         public int addWebsite(string url, string software, string language, string version)
         {
             int websiteID = -1;
