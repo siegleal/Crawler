@@ -16,8 +16,10 @@ using System.Reflection;
             String path = Console.ReadLine();
             Console.Write("Enter the crawl level>>");
             String level = Console.ReadLine();
+            Console.Write("Enter e-mail address to respond to>>");
+            String email = Console.ReadLine();
 
-            Crawler.CrawlerController crawler = new Crawler.CrawlerController(path, Int32.Parse(level));
+            Crawler.CrawlerController crawler = new Crawler.CrawlerController(path, Int32.Parse(level),email);
 
             Console.WriteLine("Complete. Press any key to continue...");
             Console.Read();

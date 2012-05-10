@@ -18,7 +18,7 @@ namespace Crawler
         [TestFixtureSetUp]
         public static void Init()
         {
-            _crawlerControler = new CrawlerController(Path, 1);
+            _crawlerControler = new CrawlerController(Path, 1, "");
         }
 
         [Test]

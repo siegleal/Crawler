@@ -157,9 +157,8 @@ namespace Crawler
 
         private string CreateRootDirectory()
         {
-            //string dirPath = string.Format("{0}_{1}", _baseurl, DateTime.Now.ToString("hh-mm_MM-dd-yyyy"));
-            //BasePath = dirPath;
             string dirPath = _website.DirPath;
+            _log.writeInfo(String.Format(@"Creating directory {0}",dirPath));
             _fsinteractor.MakeDirectory(dirPath);
             return dirPath;
         }
@@ -179,11 +178,14 @@ namespace Crawler
             alreadyParsed.Add("/");
 
             CreateRootDirectory();
-
+            
+            //get the index page
+            _log.writeError("Getting page: " + baseUrl);
             CrawlResult result = _webinteractor.GetPage(baseUrl);
             _fsinteractor.WriteStringToNewFile(result.Html,"/index.html");
             returnList.Add(result);
 
+            //parse the index file for more links
             String pattern = "href=\"(http://)*[/\\w.\\\\]*\""; //find all href's
             var relativeMatches = new List<DepthResult>();
             foreach (String str in GetMatches(pattern,result.Html))
@@ -194,6 +196,9 @@ namespace Crawler
             int i = 0;
             while (i < relativeMatches.Count)
             {
+                //parse the found files for more refs and make sure 
+                //to stay within the crawl depth and not to crawl a page twice
+
                 DepthResult match = relativeMatches[i];
                 CrawlResult newResult = _webinteractor.GetPage(baseUrl + match.RelPath);
                 if (match.RelPath.IndexOf(".") == -1)
@@ -202,10 +207,12 @@ namespace Crawler
                         match.RelPath += "index.html";
                     else
                     {
-                        match.RelPath += "index.html";
+                        match.RelPath += "/index.html";
                     }
                 }
+                _log.writeInfo(String.Format("Writing html for {0} to file...",match.RelPath));
                 _fsinteractor.WriteStringToNewFile(newResult.Html,match.RelPath);
+                _log.writeInfo("Done");
 
                 //look for more pages to crawl
                 if (match.Level < level)
@@ -241,6 +248,7 @@ namespace Crawler
                     if ((@"www." + trimmedString).IndexOf(_baseurl) == -1) //baseUrl not found if "www." added to the front of the string
                     {
                         externalFlag = true;
+                        _log.writeInfo("Found link to external website: " + trimmedString);
                     }
                     else
                     {

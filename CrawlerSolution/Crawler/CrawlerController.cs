@@ -10,7 +10,7 @@ namespace Crawler
 {
     public class CrawlerController
     {
-        public CrawlerController(String path, int depth)
+        public CrawlerController(String path, int depth, string email)
         {
             Assembly assem = Assembly.GetEntryAssembly();
             AssemblyName aName = assem.GetName();
@@ -59,7 +59,7 @@ namespace Crawler
             int crawlID;
             if (dbAccess != null)
             {
-                crawlID = dbAccess.newCrawl(path, "example@gmail.com");
+                crawlID = dbAccess.newCrawl(path, email);
             }
             else
             {
