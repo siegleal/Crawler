@@ -23,10 +23,7 @@ namespace Crawler
 
         protected void addToDatabase(List<String> results)
         {
-            foreach(String result in results)
-            {
-                db.addVulnerability(this.crawlID, result);
-            }
+            db.AddVulnerabilities(this.crawlID, results);
         }
 
         /* Abstract methods
