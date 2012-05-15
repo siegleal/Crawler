@@ -18,7 +18,12 @@ namespace Crawler
 
     public class FileSystemInteractor : IFileSystemInteractor
     {
+        public FileSystemInteractor(Log l):base()
+        {
+            _log = l;
+        }
         private string _basePath = "";
+        private Log _log;
 
         public string BasePath()
         {
@@ -38,9 +43,17 @@ namespace Crawler
 
             if (!Directory.Exists(_basePath + directoryToCreate + "/"))
                 Directory.CreateDirectory(_basePath + directoryToCreate + "/");
-            StreamWriter fs = new StreamWriter(_basePath + "/" + filepath);
-            fs.Write(input);
-            fs.Close();
+            if (filepath[filepath.Length - 1] == '/')
+                filepath += "index.html";
+            try
+            {
+                StreamWriter fs = new StreamWriter(_basePath + "/" + filepath);
+                fs.Write(input);
+                fs.Close();
+            }catch (Exception ex)
+            {
+                _log.writeError("Error creating file: " + _basePath + "/" + filepath);
+            }
         }
 
         public string MakeFilesystemGraph()
@@ -64,7 +77,7 @@ namespace Crawler
             //recursively look into directories
             foreach (var directory in Directory.GetDirectories(path))
             {
-                sb.Append(directory.Replace(path, "") + "\r\n");
+                sb.Append(prefix + directory.Replace(path, "") + "\r\n");
                 FilesystemPathHelper(directory, sb, prefix + INDENT);
             }
         }
@@ -106,10 +119,11 @@ namespace Crawler
             }
             catch (WebException we)
             {
-                var code = ((HttpWebResponse)we.Response).StatusCode;
-                cr.ReturnCode = (int) code;
-                cr.ReturnStatus = code.ToString();
-                _log.writeError(String.Format(@"Error: {0} ({1}) {2}",((HttpWebResponse)we.Response).ResponseUri, (int)code, code));
+//                var code = ((HttpWebResponse)we.Response).StatusCode;
+//                cr.ReturnCode = (int) code;
+//                cr.ReturnStatus = code.ToString();
+//                _log.writeError(String.Format(@"Error: {0} ({1}) {2}",((HttpWebResponse)we.Response).ResponseUri, (int)code, code));
+                _log.writeError("Error getting site " + url);
 
             }
 
@@ -265,8 +279,10 @@ namespace Crawler
 
             //trim the string from href="/xxx.xxx" => /xxx.xxx
 
-            if (!alreadyParsed.Contains(trimmedString) && !externalFlag)
+            if (!alreadyParsed.Contains(trimmedString) && !externalFlag && !trimmedString.Equals(""))
             {
+                if (trimmedString[0] != '/')
+                    trimmedString = "/" + trimmedString;
                 relativeMatches.Add(new DepthResult(trimmedString, level+ 1));
                 alreadyParsed.Add(trimmedString);
             }

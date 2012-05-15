@@ -66,7 +66,7 @@ namespace Crawler
                 crawlID = 0;
             }
 
-            var fsi = new FileSystemInteractor();
+            var fsi = new FileSystemInteractor(log);
             Bot b = new Bot(site, log, null, new WebInteractor(log), fsi);
             b.CrawlSite(depth);
 
@@ -97,7 +97,7 @@ namespace Crawler
             log.writeDebug("Preparing to send message");
             try
             {
-                //NotifyClient.sendMessage(ConfigReader.ReadEmailAddress());
+                NotifyClient.sendMessage(ConfigReader.ReadEmailAddress());
             }
             catch(Exception e)
             {
